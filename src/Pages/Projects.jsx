@@ -13,7 +13,11 @@ const Projects = () => {
     <div className={`${darkmode ? "dark" : ""}`}>
     <div className="p-6 dark:bg-[#090D1F]">
       {/* Heading */}
-      <MainHead Text={"PROJECTS"} />
+      <div className="border-b-2 border-t-2 border-gray-400">
+            <h1 className="text-center text-4xl dark:text-white  sm:text-9xl lg:text-[10rem] font-bold">
+              PROJECTS
+            </h1>
+          </div>
   
       {/* List of Projects */}
       <section className="sm:p-6 mt-7">

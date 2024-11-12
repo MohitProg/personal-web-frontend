@@ -9,7 +9,7 @@ const SideMenu = ({ opensidemenu, setsideopenmenu }) => {
     <>
       <Drawer anchor="left" open={opensidemenu}>
         <div className={`${darkmode ? "dark" : ""}`}>
-          <div className="bg-white dark:bg-[#1E1E2D] dark:text-gray-400   h-screen w-80 p-2">
+          <div className="bg-white dark:bg-[#1E1E2D] dark:text-gray-400   min-h-screen w-80 p-2">
             <div className="w-full flex items-center justify-end">
               <button
                 className="hover:text-purple-500"
