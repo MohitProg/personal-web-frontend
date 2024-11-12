@@ -32,7 +32,7 @@ function App() {
         ) : (
           <>
             <Navbar />
-            {/* <Filter /> */}
+            <Filter />
           </>
         )}
 

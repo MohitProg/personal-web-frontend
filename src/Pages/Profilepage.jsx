@@ -50,7 +50,7 @@ const Profilepage = () => {
             </div>
 
             {/* Settings Section */}
-            <div className="text-gray-600 py-4 mt-4">
+            <div className="text-gray-600 py-4 sm:mt-4">
               <h1 className="text-xl font-semibold text-gray-800 mb-2">
                 Settings
               </h1>
@@ -84,7 +84,7 @@ const Profilepage = () => {
           </div>
 
           {/* Blog Section */}
-          <div className="flex-grow grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 p-4">
+          <div className="flex-grow grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 sm:p-4">
             {blogsdata && blogsdata.map((value) => <BlogItem value={value} />)}
           </div>
         </div>

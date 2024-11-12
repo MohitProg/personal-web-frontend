@@ -1,10 +1,12 @@
 import React from 'react'
 import { useThemeContext } from '../context/ThemeContext'
+import { useLocation } from 'react-router-dom'
 
 const NewsLatter = () => {
   const {darkmode}=useThemeContext()
+  const {pathname}=useLocation()
   return (
-  <div className={`${darkmode?"dark":""}`}>
+  <div className={`${darkmode?"dark":""} ${["/profile","/admin/allblog","/admin/alluser","/addblog"].includes(pathname)?"hidden":"block"}`}>
 
 
     <section className='p-4 dark:bg-[#090D1F]'>

@@ -54,7 +54,7 @@ const Singleblog = () => {
                     name=""
                     id=""
                   />
-                  <button className="hover:bg-purple-500 bg-black dark:bg-gray-600 dark:hover:bg-purple-500 flex items-center justify-center text-white  px-2 py-1  rounded-sm hover: ">
+                  <button className="hover:bg-purple-500 bg-[#5941C6] rounded-md dark:bg-gray-600 dark:hover:bg-purple-500 flex items-center justify-center text-white  px-2 py-1  hover: ">
                     <SendIcon fontSize="large" />
                   </button>
                 </div>
@@ -64,7 +64,7 @@ const Singleblog = () => {
                 <div className="">
                   {/* message 1 */}
 
-                  <div className="flex flex-col bg-gray-200 text-white dark:bg-[#1E1E2D] rounded-lg p-4 shadow-sm space-y-1">
+                  <div className="flex flex-col bg-gray-200 text-white dark:bg-[#1E1E2D] rounded-lg p-2 sm:p-4 shadow-sm space-y-1">
                     <span className="text-sm font-bold text-purple-400">
                       Mohit Sharma
                     </span>
