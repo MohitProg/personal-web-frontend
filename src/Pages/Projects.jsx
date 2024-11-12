@@ -16,7 +16,7 @@ const Projects = () => {
       <MainHead Text={"PROJECTS"} />
   
       {/* List of Projects */}
-      <section className="p-6 mt-7">
+      <section className="sm:p-6 mt-7">
         <h1 className="text-2xl font-semibold dark:text-white mb-5">List of Projects</h1>
   
         <div className="py-3 mt-3 grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
