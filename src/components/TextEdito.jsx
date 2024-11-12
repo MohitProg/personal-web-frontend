@@ -1,9 +1,31 @@
 import React from 'react'
-
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import "./TextEditor.css"
 const TextEdito = () => {
+    const toolbarOptions = [
+        ["bold", "italic", "underline", "strike"], // toggled buttons
+       
+        ["link", "image", "video", "formula"],
+      
+        [{ header: 1 }, { header: 2 }], // custom button values
+        [{ list: "ordered" }, { list: "bullet" }, { list: "check" }],
+       
+        [{ direction: "rtl" }], // text direction
+      
+        [{ size: ["small", false, "large", "huge"] }], // custom dropdown
+    
+      
+        [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+        [{ font: [] }],
+  
+      
+        ["clean"], // remove formatting button
+      ];
+     
   return (
     <div>
-      <h1>Text Editor</h1>
+       <ReactQuill className='react-quill '     theme="snow" modules={{toolbar:toolbarOptions}}  />
     </div>
   )
 }

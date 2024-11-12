@@ -64,7 +64,7 @@ function App() {
           </Route>
         </Routes>
 
-        {["/login", "/signup"].includes(window.location.pathname) ? (
+        {["/login", "/signup",].includes(window.location.pathname) ? (
           ""
         ) : (
           <>

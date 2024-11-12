@@ -1,15 +1,19 @@
 import { Avatar, Modal } from '@mui/material'
 import React from 'react'
+import { useThemeContext } from '../context/ThemeContext';
 
 const EditProfileModal = ({seteditprofile,editprofile}) => {
+  const { darkmode } = useThemeContext();
   return (
    <>
    <Modal open={editprofile}>
 
+    <div className={`${darkmode ? "dark" : ""}`}>
 
-   <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white w-full max-w-md mx-auto rounded-lg shadow-lg p-6 space-y-6">
-        <h2 className="text-2xl font-semibold text-gray-700">Edit Profile</h2>
+
+   <div className="fixed inset-0 bg-gray-800  bg-opacity-50 flex items-center justify-center z-50">
+      <div className="bg-white dark:bg-[#1E1E2D]  w-full max-w-md mx-auto rounded-lg shadow-lg p-6 space-y-6">
+        <h2 className="text-2xl font-semibold text-gray-700 dark:text-[#C0C5D0]">Edit Profile</h2>
 
         {/* Profile Photo */}
         <div className="flex items-center space-x-4">
@@ -19,29 +23,29 @@ const EditProfileModal = ({seteditprofile,editprofile}) => {
 
         {/* Username Field */}
         <div>
-          <label className="block text-gray-600 text-sm font-medium mb-1">Username</label>
+          <label className="block dark:text-[#C0C5D0] text-gray-600 text-sm font-medium mb-1">Username</label>
           <input
             type="text"
-            className="w-full border border-gray-300 rounded-md p-2 text-gray-700 focus:ring-2 focus:ring-[#5941C6] focus:outline-none"
+            className="w-full dark:bg-transparent dark:text-[#C0C5D0] border border-gray-300 rounded-md p-2 text-gray-700 focus:ring-2 focus:ring-[#5941C6] focus:outline-none"
             placeholder="Enter your username"
           />
         </div>
 
         {/* Email Field */}
         <div>
-          <label className="block text-gray-600 text-sm font-medium mb-1">Email</label>
+          <label className="block dark:text-[#C0C5D0] text-gray-600 text-sm font-medium mb-1">Email</label>
           <input
             type="email"
-            className="w-full border border-gray-300 rounded-md p-2 text-gray-700 focus:ring-2 focus:ring-[#5941C6] focus:outline-none"
+            className="w-full border dark:bg-transparent dark:text-[#C0C5D0] border-gray-300 rounded-md p-2 text-gray-700 focus:ring-2 focus:ring-[#5941C6] focus:outline-none"
             placeholder="Enter your email"
           />
         </div>
 
         {/* Bio Field */}
         <div>
-          <label className="block text-gray-600 text-sm font-medium mb-1">Bio</label>
+          <label className="block dark:text-[#C0C5D0] text-gray-600 text-sm font-medium mb-1">Bio</label>
           <textarea
-            className="w-full border border-gray-300 rounded-md p-2 text-gray-700 focus:ring-2 focus:ring-[#5941C6] focus:outline-none"
+            className="w-full border dark:bg-transparent dark:text-[#C0C5D0] border-gray-300 rounded-md p-2 text-gray-700 focus:ring-2 focus:ring-[#5941C6] focus:outline-none"
             placeholder="A short bio about yourself"
             rows="3"
           ></textarea>
@@ -61,6 +65,9 @@ const EditProfileModal = ({seteditprofile,editprofile}) => {
         </div>
       </div>
     </div>
+    </div>
+
+
    </Modal>
    
    

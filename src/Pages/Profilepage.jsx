@@ -11,7 +11,7 @@ const Profilepage = () => {
   const [blogsdata, setblogsdata] = useState(blogdata);
   // state for edit profile modal
   const [editprofile, seteditprofile] = useState(false);
-
+  // theme context 
   
   const { darkmode } = useThemeContext();
   return (
