@@ -16,7 +16,7 @@ const NewsLatter = () => {
             <p className='text-[#1c1e22] dark:text-[#C0C5D0] sm:text-xl text-center'>Subscribe to learn about new features , the latest in technology solutions and updates</p>
             <div className='flex flex-col items-start w-full justify-center '>
                 <div  className='p-2 flex  flex-col sm:flex-row gap-2 items-center w-full'>
-                <input className='px-6 w-full py-3 outline-none border-2 border-black rounded-md' type="text" placeholder='Enter your email' name="" id="" />
+                <input className='sm:px-6 w-full p-2 sm:py-3 outline-none border-2 border-black rounded-md' type="text" placeholder='Enter your email' name="" id="" />
                 <button className='rounded-md px-3 py-2  sm:px-4 sm:py-3 sm:text-xl font-semibold text-white bg-purple-600'>Subscribe</button>
                 </div>
                 <span className='text-sm px-2 text-[#1c1e22]'>We care about your data in our privacy policy</span>

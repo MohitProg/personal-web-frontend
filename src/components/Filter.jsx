@@ -15,11 +15,11 @@ const Filter = () => {
     <>
       <div className={`${darkmode ? "dark" : ""}  ${["/profile","/admin/allblog","/admin/alluser","/addblog"].includes(pathname)?"hidden":"block"} `}>
         <div className="bg-white dark:bg-[#090D1F] py-2 relative">
-          <h1 className="p-3 px-5 text-gary-700 dark:text-[#C0C5D0] font-semibold ">
+          <h1 className="p-3 px-5 text-gary-700 dark:text-[#C0C5D0] text-xl font-semibold ">
             Category
           </h1>
           <Swiper
-          className="  w-3/4 mx-auto"
+          className="  w-3/4 mx-auto mt-2 "
             onInit={(swiper) => {
               swiper.params.navigation.nextEl = ".custom-next";
               swiper.params.navigation.prevEl = ".custom-prev";
@@ -138,7 +138,7 @@ const Filter = () => {
              {/* custom button for swiper  */}
 
       {/* right arrow button  */}
-      <div  className=" custom-next bg-gray-300 hover:bg-[#5941C6]  transition-colors duration-200 ease-in-out  p-2 rounded-full absolute right-0  top-1/2 ">
+      <div  className=" custom-next bg-gray-300 hover:bg-[#5941C6]  transition-colors duration-200 ease-in-out  p-1 sm:p-2 rounded-full absolute right-0  top-[55%] ">
         <button>
 
         <ArrowRightIcon />
@@ -146,7 +146,7 @@ const Filter = () => {
       </div>
 
       {/* right left arrow button  */}
-      <div className=" custom-prev bg-gray-300 hover:bg-[#5941C6]  transition-colors duration-200 ease-in-out  p-2 rounded-full absolute left-0  top-1/2 ">
+      <div className=" custom-prev bg-gray-300 hover:bg-[#5941C6]  transition-colors duration-200 ease-in-out  p-1  sm:p-2 rounded-full absolute left-0  top-[55%] ">
         <button>
 
         <ArrowLeftIcon />

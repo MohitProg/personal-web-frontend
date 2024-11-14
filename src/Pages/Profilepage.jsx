@@ -1,25 +1,80 @@
-import { Avatar } from "@mui/material";
+import { Avatar, Modal } from "@mui/material";
 import React, { useState } from "react";
 import BlogItem from "../components/BlogItem";
 import { blogdata } from "../data/blogdata";
 import { useThemeContext } from "../context/ThemeContext";
 import EditProfileModal from "../modal/EditProfileModal";
 import ControlPointRoundedIcon from "@mui/icons-material/ControlPointRounded";
-
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import CloseIcon from '@mui/icons-material/Close';
 import { Link } from "react-router-dom";
 const Profilepage = () => {
   const [blogsdata, setblogsdata] = useState(blogdata);
   // state for edit profile modal
   const [editprofile, seteditprofile] = useState(false);
+  // state for giving open modal for small screen to give more option 
+  const [openMoreModal,setopenMoreModal]=useState(false)
   // theme context 
-  
   const { darkmode } = useThemeContext();
   return (
     <>
+
+    
+    {/* profile edit modal  */}
+
+    <Modal open={openMoreModal}>
+      <div className="w-full h-screen flex items-center justify-center   p-4 ">
+
+        <div className=" bg-white rounded-lg w-full  p-2  ">
+
+          <div className="flex items-center justify-between p-2 ">
+          <h1 className="text-xl  font-semibold ">Settings</h1>
+<button onClick={()=>setopenMoreModal(false)}><CloseIcon fontSize="medium"/></button>
+
+          </div>
+
+          <ul className=" flex flex-col  gap-1 mt-1  rounded-md">
+                <li
+                  onClick={() => seteditprofile(true)}
+                  className="hover:bg-[#5941C6] dark:text-[#C0C5D0] hover:text-white rounded-lg py-2 px-3 transition-all duration-300 ease-in-out cursor-pointer"
+                >
+                  Edit Profile
+                </li>
+                <li className="hover:bg-[#5941C6] dark:text-[#C0C5D0] hover:text-white rounded-lg py-2 px-3 transition-all duration-300 ease-in-out cursor-pointer">
+                  Your Blogs
+                </li>
+                <li className="hover:bg-[#5941C6] dark:text-[#C0C5D0] hover:text-white rounded-lg py-2 px-3 transition-all duration-300 ease-in-out cursor-pointer">
+                  Saved Blog
+                </li>
+                <li className="hover:bg-[#5941C6] dark:text-[#C0C5D0] hover:text-white rounded-lg py-2 px-3 transition-all duration-300 ease-in-out cursor-pointer">
+                  Delete Account
+                </li>
+                <li className="hover:bg-[#5941C6] dark:text-[#C0C5D0] hover:text-white rounded-lg py-2 px-3 transition-all duration-300 ease-in-out cursor-pointer">
+                  Logout Account
+                </li>
+              </ul>
+
+           
+           
+        </div>
+       
+      </div>
+    </Modal>
+
+
+
+    {/* main page  */}
       <div className={`${darkmode ? "dark" : ""}`}>
         <div className="min-h-screen w-full flex  flex-col sm:flex-row gap-4 p-6 dark:bg-[#090D1F] bg-gray-100">
           {/* Profile Section */}
           <div className="sm:w-1/4 w-full max-h-screen flex flex-col gap-4 dark:from-[#1E1E2D] dark:bg-gradient-to-br  bg-gradient-to-br from-indigo-100 dark:to-[#32323f] to-purple-200 rounded-xl shadow-lg p-4">
+          <div className=" flex sm:hidden w-full  items-center justify-end">
+            <button className="" onClick={()=>setopenMoreModal(true)}>
+              <MoreVertIcon fontSize="medium"/>
+            </button>
+
+
+          </div>
             <div className="flex flex-col items-center gap-4">
               {/* Avatar */}
               <Avatar
@@ -50,7 +105,7 @@ const Profilepage = () => {
             </div>
 
             {/* Settings Section */}
-            <div className="text-gray-600 py-4 sm:mt-4">
+            <div className="text-gray-600 py-4 sm:block hidden sm:mt-4">
               <h1 className="text-xl font-semibold text-gray-800 mb-2">
                 Settings
               </h1>
@@ -75,12 +130,12 @@ const Profilepage = () => {
                 </li>
               </ul>
 
+            </div>
               <div className="flex items-center justify-end p-2">
                 <Link to={"/addblog"} className="hover:bg-[#5941C6] rounded-full">
                   <ControlPointRoundedIcon  className="text-[#5941C6] hover:text-white" fontSize="large"/>
                 </Link>
               </div>
-            </div>
           </div>
 
           {/* Blog Section */}

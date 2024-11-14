@@ -2,6 +2,7 @@ import React from "react";
 import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
 import { Link } from "react-router-dom";
 import ThumbUpRoundedIcon from '@mui/icons-material/ThumbUpRounded';
+
 const BlogItem = ({ value }) => {
   return (
     <>

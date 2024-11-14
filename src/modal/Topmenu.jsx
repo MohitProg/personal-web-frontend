@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import CircleIcon from "@mui/icons-material/Circle";
 import NightlightOutlinedIcon from "@mui/icons-material/NightlightOutlined";
 import { Drawer, Switch } from "@mui/material";
@@ -8,6 +8,7 @@ import { useThemeContext } from "../context/ThemeContext";
 import Darkmodebtn from "../components/darkmodebtn";
 const Topmenu = ({ openmenu, setopenmenu }) => {
   const { darkmode, setdarkmode } = useThemeContext();
+  const path = useLocation().pathname;
   return (
     <>
       <Drawer open={openmenu} anchor="top">
@@ -18,8 +19,8 @@ const Topmenu = ({ openmenu, setopenmenu }) => {
             </h1>
 
             <div className="  text-[#1A1A1A]  mt-4 ">
-              <ul className="flex flex-col text-center gap-8 text-lg">
-                <Link
+              <ul className="flex flex-col text-start gap-8 text-lg">
+                {/* <Link
                   onClick={() => setopenmenu(false)}
                   className="hover:border-b-2 dark:text-white transition-all duration-200 ease-in-out border-[#090D1F]"
                   to="/"
@@ -46,12 +47,54 @@ const Topmenu = ({ openmenu, setopenmenu }) => {
                   to="newsletter"
                 >
                   Newsletter
+                </Link> */}
+
+<Link
+                  className={`hover:border-b-2 transition-all duration-200 ease-in-out border-[#090D1F] ${
+                    path === "/" ? "border-b-2" : ""
+                  }`}
+
+                  onClick={() => setopenmenu(false)}
+                  to="/"
+                >
+                  Blog
+                </Link>
+                <Link
+                  className={`hover:border-b-2 transition-all duration-200 ease-in-out border-[#090D1F] ${
+                    path === "/projects" ? "border-b-2" : ""
+                  }`}
+
+                  onClick={() => setopenmenu(false)}
+                  to={"projects"}
+                >
+                  Projects
+                </Link>
+                <Link
+                  className={`hover:border-b-2 transition-all duration-200 ease-in-out border-[#090D1F] ${
+                    path === "/about" ? "border-b-2" : ""
+                  }`}
+
+                  onClick={() => setopenmenu(false)}
+                  to="about"
+                >
+                  About
+                </Link>
+                <Link
+                  className={`hover:border-b-2 transition-all duration-200 ease-in-out border-[#090D1F] ${
+                    path === "/newsletter" ? "border-b-2" : ""
+                  }`}
+
+                  onClick={() => setopenmenu(false)}
+                  to="newsletter"
+                >
+                  Newsletter
                 </Link>
               </ul>
             </div>
-           <Darkmodebtn/>
+           
 
-            <div className="w-full flex items-center justify-center mt-4 dark:text-white">
+            <div className="w-full flex gap-3 items-center justify-center mt-4 dark:text-white">
+            <Darkmodebtn/>
               <CloseIcon fontSize="large" onClick={() => setopenmenu(false)} />
             </div>
           </div>
