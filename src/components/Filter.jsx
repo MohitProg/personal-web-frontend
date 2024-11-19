@@ -8,18 +8,51 @@ import "swiper/css/navigation";
 import "swiper/css";
 import { useThemeContext } from "../context/ThemeContext";
 import { useLocation } from "react-router-dom";
+
 const Filter = () => {
   const { darkmode } = useThemeContext();
   const {pathname}=useLocation()
+
+  // category option for search 
+  const categorydata = [
+    "Personal Project",
+    "Programming Tutorials",
+    "Web Development",
+    "Mobile App Development",
+    "Data Science & AI",
+    "Cybersecurity",
+    "Cloud Computing",
+    "Tech News & Trends",
+    "Educational Tools & Apps",
+    "Study Tips & Strategies",
+    "Online Learning Platforms",
+    "Software Development",
+    "Coding Challenges",
+    "Tech Careers & Job Advice",
+    "Programming Languages",
+    "Open Source Projects",
+    "Tech Gadgets & Reviews",
+    "Startups & Entrepreneurship",
+    "Machine Learning & AI",
+    "Blockchain & Cryptocurrency",
+    "UI/UX Design",
+    "DevOps & Automation",
+    "Networking & Server Management",
+    "Tech Conferences & Events",
+    "Digital Marketing",
+    "EdTech Innovations",
+    "E-Learning Development",
+  ];
+
   return (
     <>
-      <div className={`${darkmode ? "dark" : ""}  ${["/profile","/admin/allblog","/admin/alluser","/addblog"].includes(pathname)?"hidden":"block"} `}>
+      <div className={`${darkmode ? "dark" : ""}  ${["/profile","/admin/allblog","/admin/alluser","/addblog","/login","/signup"].includes(pathname)?"hidden":"block"} `}>
         <div className="bg-white dark:bg-[#090D1F] py-2 relative">
           <h1 className="p-3 px-5 text-gary-700 dark:text-[#C0C5D0] text-xl font-semibold ">
             Category
           </h1>
           <Swiper
-          className="  w-3/4 mx-auto mt-2 "
+          className="  w-4/5 mx-auto mt-2 "
             onInit={(swiper) => {
               swiper.params.navigation.nextEl = ".custom-next";
               swiper.params.navigation.prevEl = ".custom-prev";
@@ -31,13 +64,13 @@ const Filter = () => {
               swiper.navigation.init();
               swiper.navigation.update();
             }}
-            slidesPerView={2}
+            slidesPerView={1}
             modules={[Navigation]}
             
             breakpoints={{
               // When the screen width is less than 640px
               640: {
-                slidesPerView: 2,
+                slidesPerView: 1,
                 spaceBetween:20
               },
               // When the screen width is between 640px and 768px
@@ -50,89 +83,24 @@ const Filter = () => {
               },
               // When the screen width is 1280px or more
               1280: {
-                slidesPerView: 6,
+                slidesPerView: 4,
                 spaceBetween:10
               },
             }}
           >
-            <SwiperSlide>
-              <div className="mx-auto flex items-center justify-center p-1">
-                <button className="px-3 py-1 text-lg rounded-md ring-1 ring-[#6941C6] font-semibold text-[#6941C6] transition-colors duration-200 ease-in-out   dark:ring-1 dark:ring-white hover:bg-[#6941C6] hover:text-white dark:text-white dark:border-white dark:bg-transparent dark:hover:bg-[#6941C6] dark:hover:text-white shadow-lg hover:shadow-md dark:hover:shadow-lg">
-                  Mobile
-                </button>
-              </div>
-            </SwiperSlide>
-            <SwiperSlide>
-              <div className="mx-auto flex items-center justify-center p-1">
-                <button className="px-3 py-1 text-lg rounded-md ring-1 ring-[#6941C6] font-semibold text-[#6941C6] transition-colors duration-200 ease-in-out   dark:ring-1 dark:ring-white hover:bg-[#6941C6] hover:text-white dark:text-white dark:border-white dark:bg-transparent dark:hover:bg-[#6941C6] dark:hover:text-white shadow-lg hover:shadow-md dark:hover:shadow-lg">
-                  Laptop
-                </button>
-              </div>
-            </SwiperSlide>
-            <SwiperSlide>
-              <div className="mx-auto flex items-center justify-center p-1">
-                <button className="px-3 py-1 text-lg rounded-md ring-1 ring-[#6941C6] font-semibold text-[#6941C6] transition-colors duration-200 ease-in-out   dark:ring-1 dark:ring-white hover:bg-[#6941C6] hover:text-white dark:text-white dark:border-white dark:bg-transparent dark:hover:bg-[#6941C6] dark:hover:text-white shadow-lg hover:shadow-md dark:hover:shadow-lg">
-                  Telivison
-                </button>
-              </div>
-            </SwiperSlide>
-            <SwiperSlide>
-              <div className="mx-auto flex items-center justify-center p-1">
-                <button className="px-3 py-1 text-lg rounded-md ring-1 ring-[#6941C6] font-semibold text-[#6941C6] transition-colors duration-200 ease-in-out   dark:ring-1 dark:ring-white hover:bg-[#6941C6] hover:text-white dark:text-white dark:border-white dark:bg-transparent dark:hover:bg-[#6941C6] dark:hover:text-white shadow-lg hover:shadow-md dark:hover:shadow-lg">
-                  Computer
-                </button>
-              </div>
-            </SwiperSlide>
-            <SwiperSlide>
-              <div className="mx-auto flex items-center justify-center p-1">
-                <button className="px-3 py-1 text-lg rounded-md ring-1 ring-[#6941C6] font-semibold text-[#6941C6] transition-colors duration-200 ease-in-out   dark:ring-1 dark:ring-white hover:bg-[#6941C6] hover:text-white dark:text-white dark:border-white dark:bg-transparent dark:hover:bg-[#6941C6] dark:hover:text-white shadow-lg hover:shadow-md dark:hover:shadow-lg">
-                  Computer
-                </button>
-              </div>
-            </SwiperSlide>
-            <SwiperSlide>
-              <div className="mx-auto flex items-center justify-center p-1">
-                <button className="px-3 py-1 text-lg rounded-md ring-1 ring-[#6941C6] font-semibold text-[#6941C6] transition-colors duration-200 ease-in-out   dark:ring-1 dark:ring-white hover:bg-[#6941C6] hover:text-white dark:text-white dark:border-white dark:bg-transparent dark:hover:bg-[#6941C6] dark:hover:text-white shadow-lg hover:shadow-md dark:hover:shadow-lg">
-                  Computer
-                </button>
-              </div>
-            </SwiperSlide>
-            <SwiperSlide>
-              <div className="mx-auto flex items-center justify-center p-1">
-                <button className="px-3 py-1 text-lg rounded-md ring-1 ring-[#6941C6] font-semibold text-[#6941C6] transition-colors duration-200 ease-in-out   dark:ring-1 dark:ring-white hover:bg-[#6941C6] hover:text-white dark:text-white dark:border-white dark:bg-transparent dark:hover:bg-[#6941C6] dark:hover:text-white shadow-lg hover:shadow-md dark:hover:shadow-lg">
-                  Computer
-                </button>
-              </div>
-            </SwiperSlide>
-            <SwiperSlide>
-              <div className="mx-auto flex items-center justify-center p-1">
-                <button className="px-3 py-1 text-lg rounded-md ring-1 ring-[#6941C6] font-semibold text-[#6941C6] transition-colors duration-200 ease-in-out   dark:ring-1 dark:ring-white hover:bg-[#6941C6] hover:text-white dark:text-white dark:border-white dark:bg-transparent dark:hover:bg-[#6941C6] dark:hover:text-white shadow-lg hover:shadow-md dark:hover:shadow-lg">
-                  Computer
-                </button>
-              </div>
-            </SwiperSlide>
 
 
-            <SwiperSlide>
+            {categorydata?.map((value,index)=>(
+
+            <SwiperSlide key={index}>
               <div className="mx-auto flex items-center justify-center p-1">
                 <button className="px-3 py-1 text-lg rounded-md ring-1 ring-[#6941C6] font-semibold text-[#6941C6] transition-colors duration-200 ease-in-out   dark:ring-1 dark:ring-white hover:bg-[#6941C6] hover:text-white dark:text-white dark:border-white dark:bg-transparent dark:hover:bg-[#6941C6] dark:hover:text-white shadow-lg hover:shadow-md dark:hover:shadow-lg">
-                  Computer
+                {value}
                 </button>
               </div>
             </SwiperSlide>
-            <SwiperSlide>
-              <div className="mx-auto flex items-center justify-center p-1">
-                <button className="px-3 py-1 text-lg rounded-md ring-1 ring-[#6941C6] font-semibold text-[#6941C6] transition-colors duration-200 ease-in-out   dark:ring-1 dark:ring-white hover:bg-[#6941C6] hover:text-white dark:text-white dark:border-white dark:bg-transparent dark:hover:bg-[#6941C6] dark:hover:text-white shadow-lg hover:shadow-md dark:hover:shadow-lg">
-                  Computer
-                </button>
-              </div>
-            </SwiperSlide><SwiperSlide>
-              <div className="mx-auto flex items-center justify-center p-1">
-                <button className="px-3 py-1 text-lg rounded-md ring-1 ring-[#6941C6] font-semibold text-[#6941C6] transition-colors duration-200 ease-in-out   dark:ring-1 dark:ring-white hover:bg-[#6941C6] hover:text-white dark:text-white dark:border-white dark:bg-transparent dark:hover:bg-[#6941C6] dark:hover:text-white shadow-lg hover:shadow-md dark:hover:shadow-lg">
-                  Computer
-                </button>
-              </div>
-            </SwiperSlide>
+            ))}
+           
           </Swiper>
 
              {/* custom button for swiper  */}

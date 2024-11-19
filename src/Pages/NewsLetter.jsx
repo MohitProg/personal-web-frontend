@@ -1,29 +1,61 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import BlogItem from "../components/BlogItem";
 import { newsletterData } from "../data/blogdata";
 import { useThemeContext } from "../context/ThemeContext";
+import { useDispatch, useSelector } from "react-redux";
+import { Getblogbycategory } from "../Redux/Api/blogApi";
+import Loader from "../components/Loader";
 const NewsLetter = () => {
-  const [newslatterdata,setnewslatterdata]=useState(newsletterData);
-  const {darkmode}=useThemeContext()
+  const { darkmode } = useThemeContext();
+  const dispatch = useDispatch();
+  const { blogsbycategory, blogcategorystatus } = useSelector(
+    (state) => state.blog
+  );
+  console.log(blogsbycategory);
+
+  // getblogs according to category \
+  // Note : here category will be regarded to news
+  useEffect(() => {
+    dispatch(
+      Getblogbycategory([
+        "Tech News & Trends",
+        "Tech Gadgets & Reviews",
+        "Tech Conferences & Events",
+      ])
+    );
+  }, []);
+
   return (
     <>
       <div className={`${darkmode ? "dark" : ""}`}>
-  <section className="p-6 min-h-screen dark:bg-[#090D1F]">
-    {/* Heading */}
-    <h1 className="text-3xl font-semibold dark:text-white mb-6">All Blog Posts</h1>
+        <section className="p-6 min-h-screen dark:bg-[#090D1F]">
+          {/* Heading */}
+          <h1 className="text-xl sm:text-3xl font-semibold dark:text-white mb-6">
+            Trending News
+          </h1>
 
-    {/* Blog Posts Grid */}
-    <div className="py-3 mt-3 grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
-      {newslatterdata &&
-        newslatterdata.map((value) => (
-          <div key={value.id} className="">
-            <BlogItem value={value} />
-          </div>
-        ))}
-    </div>
-  </section>
-</div>
-
+          {/* Blog Posts Grid */}
+          {blogsbycategory && blogsbycategory?.length > 0 ? (
+            <div className="py-3 mt-3 grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 xl:grid-cols-3">
+              {blogsbycategory.map((value) => (
+                <div key={value.id} className="">
+                  <BlogItem value={value} />
+                </div>
+              ))}
+            </div>
+          ) : blogcategorystatus !== "fullfilled" ? (
+            <>
+              <Loader />
+            </>
+          ) : (
+            <>
+              <div className="m-h-screen w-full flex items-center justify-center">
+                <h1>No data found </h1>
+              </div>
+            </>
+          )}
+        </section>
+      </div>
     </>
   );
 };

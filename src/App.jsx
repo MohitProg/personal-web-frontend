@@ -20,56 +20,69 @@ import Allblogpage from "./Pages/Allblogpage";
 import AlluserPage from "./Pages/AlluserPage";
 import ChartviewPage from "./Pages/ChartviewPage";
 import Addblog from "./Pages/Addblog";
+import Verfiyotp from "./Pages/verfiyotp";
+import { Toaster } from "react-hot-toast";
+import Auth from "./utils/Auth";
 
 function App() {
-  console.log(window);
   return (
     <>
       <BrowserRouter>
+        <Toaster />
         <ScrollToTop />
-        {["/login", "/signup"].includes(window.location.pathname) ? (
+        {["/login", "/signup", "/verifyotp"].includes(
+          window.location.pathname
+        ) ? (
           ""
         ) : (
           <>
             <Navbar />
-            <Filter />
+            {/* <Filter /> */}
           </>
         )}
 
         <Routes>
+          {/* Public routes */}
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/Signup" element={<SignupPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/verifyotp" element={<Verfiyotp />} />
+
+          {/* Protected routes */}
           <Route path="/">
             <Route index element={<Home />} />
+
             <Route path="blog/:id" element={<Singleblog />} />
+
             <Route path="projects" element={<Projects />} />
-            {/* profile page routing  */}
-            <Route path="profile">
-              <Route index element={<Profilepage />} />
+
+            {/* Profile page routing */}
+            <Route element={<Auth />}>
+              <Route path="profile" element={<Profilepage />} />
+
+              {/* Admin page routing */}
+              <Route path="admin" element={<AdminPage />}>
+                <Route path="allblog" element={<Allblogpage />} />
+                <Route path="alluser" element={<AlluserPage />} />
+                <Route path="chartview" element={<ChartviewPage />} />
+              </Route>
+
+              {/* Other protected routes */}
+              <Route path="addblog" element={<Addblog />} />
+              <Route path="blog" element={<Blog />} />
             </Route>
 
-            {/* admin page routeing  */}
-            <Route path="admin/" element={<AdminPage/>}>
-             
-              <Route index path="allblog"  element={<Allblogpage/>}/>
-              <Route path="alluser" element={<AlluserPage/>}/>
-              <Route path="chartview" element={<ChartviewPage/>}/>
-            </Route>
-            <Route path="/addblog" element={<Addblog/>}/>
-
-            
-            <Route path="blog" element={<Blog />} />
             <Route path="about" element={<About />} />
             <Route path="newsletter" element={<NewsLetter />} />
           </Route>
         </Routes>
 
-        {["/login", "/signup",].includes(window.location.pathname) ? (
+        {["/login", "/signup", "/verifyotp"].includes(
+          window.location.pathname
+        ) ? (
           ""
         ) : (
           <>
             <NewsLatter />
-
             <Fotter />
           </>
         )}

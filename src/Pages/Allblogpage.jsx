@@ -9,7 +9,7 @@ const Allblogpage = () => {
 <div className="p-1 flex flex-col gap-2">
 
     <div>
-<h1 className="text-gray-800 text-lg">Total No of Blogs : <span className="font-semibold text-black">{blogdata?.length}</span></h1>
+<h1 className="text-gray-800 text-lg dark:text-gray-600">Total No of Blogs : <span className="font-semibold text-black dark:text-gray-400">{blogdata?.length}</span></h1>
 
     </div>
       <div className="grid grid-cols-1 sm:grid-cols-3  gap-3  ">

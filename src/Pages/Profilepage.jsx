@@ -1,83 +1,119 @@
-import { Avatar, Modal } from "@mui/material";
-import React, { useState } from "react";
+import { Avatar, Modal, Tooltip } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import BlogItem from "../components/BlogItem";
-import { blogdata } from "../data/blogdata";
+import { blogdata, Recentblogdata } from "../data/blogdata";
 import { useThemeContext } from "../context/ThemeContext";
 import EditProfileModal from "../modal/EditProfileModal";
 import ControlPointRoundedIcon from "@mui/icons-material/ControlPointRounded";
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import CloseIcon from '@mui/icons-material/Close';
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import CloseIcon from "@mui/icons-material/Close";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { GetSavedBlogdata } from "../Redux/Api/blogApi";
+import { LogoutUser } from "../Redux/Api/userApi";
+import toast from "react-hot-toast";
+import Loader from "../components/Loader";
 const Profilepage = () => {
-  const [blogsdata, setblogsdata] = useState(blogdata);
+
   // state for edit profile modal
   const [editprofile, seteditprofile] = useState(false);
-  // state for giving open modal for small screen to give more option 
-  const [openMoreModal,setopenMoreModal]=useState(false)
-  // theme context 
+  // state for giving open modal for small screen to give more option
+  const [openMoreModal, setopenMoreModal] = useState(false);
+  // theme context
   const { darkmode } = useThemeContext();
+  // geting user data
+  const { userdata } = useSelector((state) => state.user);
+  const { userblog,savedblogdata,getsaveblogstatus,userblogstatus } = useSelector((state) => state.blog);
+  const dispatch=useDispatch()
+
+
+  // state for tabs 
+  const [tabs,settabs]=useState({
+    tab:"Your blog",
+   
+  })
+
+ 
+
+  console.log(savedblogdata,tabs)
+  
+  useEffect(()=>{
+    if(getsaveblogstatus==="idle"){
+      dispatch(GetSavedBlogdata())
+    }
+
+  },[getsaveblogstatus,dispatch])
+
+
+  // Logout user functionality 
+
+  const HandleLogoutuser=()=>{
+    dispatch(LogoutUser()).unwrap().then((res)=>{
+      if(res.success){
+         toast.success(res.message)
+         localStorage.removeItem("token")
+         localStorage.removeItem("userid")
+         window.location.href='/login'
+      }else {
+         toast.error(res.message)
+      }
+    })
+
+  }
+
+ 
   return (
     <>
+      {/* profile edit modal  */}
 
-    
-    {/* profile edit modal  */}
+      <Modal open={openMoreModal}>
+        <div className="w-full h-screen flex items-center justify-center   p-4 ">
+          <div className=" bg-white rounded-lg w-full  p-2  ">
+            <div className="flex items-center justify-between p-2 ">
+              <h1 className="text-xl  font-semibold ">Settings</h1>
+              <button onClick={() => setopenMoreModal(false)}>
+                <CloseIcon fontSize="medium" />
+              </button>
+            </div>
 
-    <Modal open={openMoreModal}>
-      <div className="w-full h-screen flex items-center justify-center   p-4 ">
-
-        <div className=" bg-white rounded-lg w-full  p-2  ">
-
-          <div className="flex items-center justify-between p-2 ">
-          <h1 className="text-xl  font-semibold ">Settings</h1>
-<button onClick={()=>setopenMoreModal(false)}><CloseIcon fontSize="medium"/></button>
-
+            <ul className=" flex flex-col  gap-1 mt-1  rounded-md">
+              <li
+                onClick={() => seteditprofile(true)}
+                className="hover:bg-[#5941C6] dark:text-[#C0C5D0] hover:text-white rounded-lg py-2 px-3 transition-all duration-300 ease-in-out cursor-pointer"
+              >
+                Edit Profile
+              </li>
+              <li className="hover:bg-[#5941C6] dark:text-[#C0C5D0] hover:text-white rounded-lg py-2 px-3 transition-all duration-300 ease-in-out cursor-pointer" onClick={()=>settabs({tab:"Your blog"})}>
+                Your Blogs
+              </li>
+              <li className="hover:bg-[#5941C6] dark:text-[#C0C5D0] hover:text-white rounded-lg py-2 px-3 transition-all duration-300 ease-in-out cursor-pointer"  onClick={()=>settabs({tab:"Saved blog"})}>
+                Saved Blog
+              </li>
+              <li className="hover:bg-[#5941C6] dark:text-[#C0C5D0] hover:text-white rounded-lg py-2 px-3 transition-all duration-300 ease-in-out cursor-pointer">
+                Delete Account
+              </li>
+              <li className="hover:bg-[#5941C6] dark:text-[#C0C5D0] hover:text-white rounded-lg py-2 px-3 transition-all duration-300 ease-in-out cursor-pointer" onClick={HandleLogoutuser}>
+                Logout Account
+              </li>
+            </ul>
           </div>
-
-          <ul className=" flex flex-col  gap-1 mt-1  rounded-md">
-                <li
-                  onClick={() => seteditprofile(true)}
-                  className="hover:bg-[#5941C6] dark:text-[#C0C5D0] hover:text-white rounded-lg py-2 px-3 transition-all duration-300 ease-in-out cursor-pointer"
-                >
-                  Edit Profile
-                </li>
-                <li className="hover:bg-[#5941C6] dark:text-[#C0C5D0] hover:text-white rounded-lg py-2 px-3 transition-all duration-300 ease-in-out cursor-pointer">
-                  Your Blogs
-                </li>
-                <li className="hover:bg-[#5941C6] dark:text-[#C0C5D0] hover:text-white rounded-lg py-2 px-3 transition-all duration-300 ease-in-out cursor-pointer">
-                  Saved Blog
-                </li>
-                <li className="hover:bg-[#5941C6] dark:text-[#C0C5D0] hover:text-white rounded-lg py-2 px-3 transition-all duration-300 ease-in-out cursor-pointer">
-                  Delete Account
-                </li>
-                <li className="hover:bg-[#5941C6] dark:text-[#C0C5D0] hover:text-white rounded-lg py-2 px-3 transition-all duration-300 ease-in-out cursor-pointer">
-                  Logout Account
-                </li>
-              </ul>
-
-           
-           
         </div>
-       
-      </div>
-    </Modal>
+      </Modal>
 
-
-
-    {/* main page  */}
+      {/* main page  */}
       <div className={`${darkmode ? "dark" : ""}`}>
         <div className="min-h-screen w-full flex  flex-col sm:flex-row gap-4 p-6 dark:bg-[#090D1F] bg-gray-100">
           {/* Profile Section */}
-          <div className="sm:w-1/4 w-full max-h-screen flex flex-col gap-4 dark:from-[#1E1E2D] dark:bg-gradient-to-br  bg-gradient-to-br from-indigo-100 dark:to-[#32323f] to-purple-200 rounded-xl shadow-lg p-4">
-          <div className=" flex sm:hidden w-full  items-center justify-end">
-            <button className="" onClick={()=>setopenMoreModal(true)}>
-              <MoreVertIcon fontSize="medium"/>
-            </button>
-
-
-          </div>
-            <div className="flex flex-col items-center gap-4">
+          <div className=" w-full  sm:w-2/4 lg:w-1/4  max-h-screen flex flex-col gap-4 dark:from-[#1E1E2D] dark:bg-gradient-to-br  bg-gradient-to-br from-indigo-100 dark:to-[#32323f] to-purple-200 rounded-xl shadow-lg p-1 sm:p-4">
+            <div className=" flex sm:hidden w-full  items-center justify-end">
+              <button className="" onClick={() => setopenMoreModal(true)}>
+                <MoreVertIcon fontSize="medium" />
+              </button>
+            </div>
+            <div className="flex flex-col items-center gap-2 sm:gap-4">
               {/* Avatar */}
               <Avatar
+                src={userdata?.avatar}
                 sx={{
                   height: "6rem",
                   width: "6rem",
@@ -88,11 +124,14 @@ const Profilepage = () => {
               {/* User Details */}
               <div className="text-center space-y-2">
                 <h1 className="text-2xl font-bold text-[#5941C6]">
-                  Mohit Sharma
+                  {userdata?.name}
                 </h1>
+
+                <p className="text-sm text-gray-800 leading-relaxed dark:text-[#C0C5D0]">
+                  {userdata?.email}
+                </p>
                 <p className="text-sm text-gray-600 leading-relaxed dark:text-[#C0C5D0]">
-                  Hello developer! My name is Mohit Sharma. I hope you like
-                  this. This is my personal website, made with effort.
+                  {userdata?.desc}
                 </p>
               </div>
 
@@ -116,32 +155,60 @@ const Profilepage = () => {
                 >
                   Edit Profile
                 </li>
-                <li className="hover:bg-[#5941C6] dark:text-[#C0C5D0] hover:text-white rounded-lg py-2 px-3 transition-all duration-300 ease-in-out cursor-pointer">
+                <li className="hover:bg-[#5941C6] dark:text-[#C0C5D0] hover:text-white rounded-lg py-2 px-3 transition-all duration-300 ease-in-out cursor-pointer" onClick={()=>settabs({tab:"Your blog"})}>
                   Your Blogs
                 </li>
-                <li className="hover:bg-[#5941C6] dark:text-[#C0C5D0] hover:text-white rounded-lg py-2 px-3 transition-all duration-300 ease-in-out cursor-pointer">
+                <li className="hover:bg-[#5941C6] dark:text-[#C0C5D0] hover:text-white rounded-lg py-2 px-3 transition-all duration-300 ease-in-out cursor-pointer"  onClick={()=>settabs({tab:"Saved blog"})}>
                   Saved Blog
                 </li>
                 <li className="hover:bg-[#5941C6] dark:text-[#C0C5D0] hover:text-white rounded-lg py-2 px-3 transition-all duration-300 ease-in-out cursor-pointer">
                   Delete Account
                 </li>
-                <li className="hover:bg-[#5941C6] dark:text-[#C0C5D0] hover:text-white rounded-lg py-2 px-3 transition-all duration-300 ease-in-out cursor-pointer">
+                <li className="hover:bg-[#5941C6] dark:text-[#C0C5D0] hover:text-white rounded-lg py-2 px-3 transition-all duration-300 ease-in-out cursor-pointer" onClick={HandleLogoutuser}>
                   Logout Account
                 </li>
               </ul>
-
             </div>
-              <div className="flex items-center justify-end p-2">
-                <Link to={"/addblog"} className="hover:bg-[#5941C6] rounded-full">
-                  <ControlPointRoundedIcon  className="text-[#5941C6] hover:text-white" fontSize="large"/>
-                </Link>
-              </div>
+            <div className="flex items-center justify-center sm:justify-end p-2 w-full ">
+              <Link to={"/addblog"} className="hover:bg-[#5941C6] rounded-full">
+              <Tooltip title="Add blog" arrow>
+                
+                <ControlPointRoundedIcon
+                style={{height:"50px",width:'50px'}}
+                  className="text-[#5941C6]  hover:text-white"
+                  fontSize="large"
+                />
+              </Tooltip>
+              </Link>
+            </div>
           </div>
 
           {/* Blog Section */}
-          <div className="flex-grow grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 sm:p-4">
-            {blogsdata && blogsdata.map((value) => <BlogItem value={value} />)}
+
+          { tabs?.tab==="Your blog"  ? 
+            <>
+
+            {userblogstatus!=="fullfilled"?<>
+            <Loader/>
+            
+            </>:<div className="flex-grow grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2  gap-6 sm:p-4">
+                {userblog &&
+                  userblog.map((value) => <BlogItem value={value} />)}
+              </div>}
+              
+            </>
+           : tabs?.tab==="Saved blog"?
+           <>
+           <div className="flex-grow grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2  gap-6 sm:p-4">
+                {savedblogdata &&
+                  savedblogdata.map((value) => <BlogItem value={value} />)}
+              </div>
+           
+           </>
+            :<div className="w-full flex items-center justify-center">
+            <h1 className="font-semibold  ">No Blog is Available </h1>
           </div>
+          }
         </div>
       </div>
 
@@ -149,8 +216,6 @@ const Profilepage = () => {
         seteditprofile={seteditprofile}
         editprofile={editprofile}
       />
-
-    
     </>
   );
 };

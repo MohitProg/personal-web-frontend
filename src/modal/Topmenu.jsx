@@ -14,12 +14,12 @@ const Topmenu = ({ openmenu, setopenmenu }) => {
       <Drawer open={openmenu} anchor="top">
         <div className={`${darkmode ? "dark" : ""}`}>
           <div className=" p-6 z-[999] dark:bg-[#121212]">
-            <h1 className="text-2xl text-center  font-bold dark:text-white">
+            <h1 className="text-2xl text-center  font-bold dark:text-[#C0C5D0]">
               Mohit Sharma
             </h1>
 
             <div className="  text-[#1A1A1A]  mt-4 ">
-              <ul className="flex flex-col text-start gap-8 text-lg">
+              <ul className="flex flex-col dark:text-white text-start gap-8 text-lg">
                 {/* <Link
                   onClick={() => setopenmenu(false)}
                   className="hover:border-b-2 dark:text-white transition-all duration-200 ease-in-out border-[#090D1F]"

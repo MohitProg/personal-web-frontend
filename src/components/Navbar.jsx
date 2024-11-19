@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -9,8 +9,16 @@ import { useThemeContext } from "../context/ThemeContext";
 import Darkmodebtn from "./darkmodebtn";
 import { Avatar } from "@mui/material";
 import SideMenu from "../modal/SideMenu";
+import { useDispatch, useSelector } from "react-redux";
+import { GetSingleUserdata } from "../Redux/Api/userApi";
+import toast from "react-hot-toast";
+import { GetAllblogs, Getrecentblogdata, GetUserblog } from "../Redux/Api/blogApi";
 
 const Navbar = () => {
+  
+  // dispatch
+  const dispatch=useDispatch();
+  // state for navigation
   const Naviagte = useNavigate();
   // state for navbar
   const [openmenu, setopenmenu] = useState(false);
@@ -21,19 +29,64 @@ const Navbar = () => {
   // value of dark mode
   const { darkmode } = useThemeContext();
   // Naviagte function for login page
+  
 
   const HandleNaviagte = () => {
     console.log("mohit sharma");
     window.location.href = "/login";
-    // window.location.reload()
+   
   };
+
+  // getting data of user from here 
+const {userdata,singleuserstatus}=useSelector((state)=>state.user);
+const {userblogstatus,getallblogstatus,getrecentblogstatus,pagevalue}=useSelector((state)=>state.blog);
+const token=localStorage.getItem("token");
+
+
+
+
+// creating global data dispatching here 
+
+useEffect(()=>{
+  if(singleuserstatus==="idle" && token ){
+
+    dispatch(GetSingleUserdata()).unwrap().then((res)=>{
+     
+      if(!res.success){
+        toast.error(res.msg)
+        localStorage.removeItem("token")
+    
+        
+      }
+    })
+  }
+
+  getrecentblogstatus==="idle" && token && dispatch(Getrecentblogdata())
+ userblogstatus==="idle" && token && dispatch(GetUserblog())
+
+
+
+},[dispatch,userblogstatus,singleuserstatus,getallblogstatus,getrecentblogstatus,token,pagevalue])
+
+
+console.log(pagevalue)
+useEffect(()=>{
+  if(pagevalue!==0 ){
+
+    dispatch(GetAllblogs(pagevalue));
+  }
+ 
+  console.log("mohit")
+
+  
+},[pagevalue])
 
   return (
     <>
       <Topmenu setopenmenu={setopenmenu} openmenu={openmenu} />
       <SideMenu opensidemenu={opensidemenu} setsideopenmenu={setsideopenmenu}/>
 
-      <header className={`${darkmode ? "dark" : ""}`}>
+      <header className={`${darkmode ? "dark" : ""} ${["/admin/allblog","/admin/alluser","/addblog","/login","/signup"].includes(path)?"hidden":"block"}`}>
         <nav className="p-3 bg-white flex  justify-between items-center dark:bg-[#090D1F]  ">
           <h1 className=" text-2xl dark:text-white sm:text-3xl font-bold">
            WebTech
@@ -86,17 +139,19 @@ const Navbar = () => {
 
             {/* toogle for login and profile button  */}
 
-            <button
+            {token && token?.length>0?
+            <button onClick={()=>setsideopenmenu(true)}>
+              <Avatar src={userdata?.avatar}/>
+            </button>: <button
               onClick={HandleNaviagte}
-              className="rounded-md px-3 py-1  hidden sm:block  sm:text-lg font-semibold text-white bg-[#5941C6]"
+              className="rounded-md px-3 py-1   sm:block  sm:text-lg font-semibold text-white bg-[#5941C6]"
             >
               Login
-            </button>
+            </button>}
 
-{/* avatar ui page  */}
-            <button onClick={()=>setsideopenmenu(true)}>
-              <Avatar/>
-            </button>
+           
+
+
           </div>
         </nav>
       </header>

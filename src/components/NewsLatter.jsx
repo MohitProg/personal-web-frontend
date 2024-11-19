@@ -6,7 +6,7 @@ const NewsLatter = () => {
   const {darkmode}=useThemeContext()
   const {pathname}=useLocation()
   return (
-  <div className={`${darkmode?"dark":""} ${["/profile","/admin/allblog","/admin/alluser","/addblog"].includes(pathname)?"hidden":"block"}`}>
+  <div className={`${darkmode?"dark":""} ${["/profile","/admin/allblog","/admin/alluser","/addblog","/login","/signup"].includes(pathname)?"hidden":"block"}`}>
 
 
     <section className='p-4 dark:bg-[#090D1F]'>

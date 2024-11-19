@@ -5,11 +5,28 @@ import { Recentblogdata } from "../data/blogdata";
 import MainHead from "../components/MainHead";
 import { useThemeContext } from "../context/ThemeContext";
 import SliderComponents from "../components/SliderComponents";
+import { Pagination } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { UpdatePageValue } from "../Redux/Slice/blogslice";
+import Loader from "../components/Loader";
 
 const Home = () => {
-  const [blogsdata, setblogsdata] = useState(blogdata);
-  const [recentblogdata, setrecentblogdata] = useState(Recentblogdata);
+  
+  // get recentblogdata 
+  const {recentblogdata,getallblogstatus}=useSelector((state)=>state.blog)
+  const dispatch=useDispatch()
+
+  
   const { darkmode } = useThemeContext();
+  const { getallblogs,totalvalue ,pagevalue} = useSelector((state) => state.blog);
+
+  // functionality to handle pagination 
+  const HanldePagination=(e,value)=>{
+    console.log(value)
+    dispatch(UpdatePageValue(value))
+    
+
+  }
   return (
     <>
       <div className={`${darkmode ? "dark" : ""}`}>
@@ -22,20 +39,17 @@ const Home = () => {
           </div>
 
           {/* Recent Blog Posts Section */}
-          <section className="p-1 sm:p-4 mt-7">
+          {recentblogdata?.length>0 && <section className="p-1 sm:p-4 mt-7">
             <h1 className="text-2xl font-semibold dark:text-white mb-5">
               Recent Blog Posts
             </h1>
 
             <div className="py-3 mt-3 w-full">
-              {/* You can uncomment this when you have the data */}
-              {/* {recentblogdata &&
-          recentblogdata?.map((value) => (
-            <BlogItem key={value.id} value={value} />
-          ))} */}
+         
               <SliderComponents data={recentblogdata} />
             </div>
-          </section>
+          </section> }
+          
 
           {/* All Blog Posts Section */}
           <section className="p-1 sm:p-4 mt-5">
@@ -43,12 +57,32 @@ const Home = () => {
               All Blog Posts
             </h1>
 
-            <div className="py-3 mt-3 grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
-              {blogsdata &&
-                blogsdata.map((value) => (
-                  <BlogItem value={value} key={value.id} />
+            {getallblogs && getallblogs?.length > 0 ? (
+              <>
+              
+              
+              <div className="py-3 mt-3 grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 xl:grid-cols-3">
+                {getallblogs.map((value) => (
+                  <BlogItem value={value} key={value._id} />
                 ))}
+              </div>
+
+              
+            <div className="p-2 flex items-center justify-center mt-3 ">
+              <Pagination count={Math.ceil(totalvalue/8)} onChange={HanldePagination} variant="outlined" color="secondary" />
             </div>
+              
+              </>
+            ): getallblogstatus!=="fullfilled"  ?<>
+            
+            <Loader/>
+            
+            </> :(
+              <div className="w-full flex items-center justify-center">
+                <h1 className="font-semibold  ">No Blog is Available </h1>
+              </div>
+            )}
+
           </section>
 
           {/* Footer */}

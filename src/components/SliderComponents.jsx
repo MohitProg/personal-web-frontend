@@ -24,18 +24,18 @@ const SliderComponents = ({ data }) => {
       spaceBetween: 20,
     },
     768: {
-      slidesPerView: 3,
+      slidesPerView: 2,
       spaceBetween: 20,
       navigation:true,
     },
     1024: {
         navigation:true,
-      slidesPerView: 4,
+      slidesPerView: 3,
       spaceBetween: 20,
     },
     1280: {
         navigation:true,
-      slidesPerView: 2,
+      slidesPerView: 3,
       spaceBetween: 20,
     },
   }}
@@ -43,7 +43,7 @@ const SliderComponents = ({ data }) => {
 
           {data &&
             data.map((value) => (
-              <SwiperSlide key={value.id}>
+              <SwiperSlide key={value._id}>
                 <div className="flex justify-center items-center ">
                   <BlogItem value={value} />
                 </div>

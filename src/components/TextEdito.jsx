@@ -2,7 +2,7 @@ import React from 'react'
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import "./TextEditor.css"
-const TextEdito = () => {
+const TextEdito = ({setblogdata,blogdata}) => {
     const toolbarOptions = [
         ["bold", "italic", "underline", "strike"], // toggled buttons
        
@@ -25,7 +25,7 @@ const TextEdito = () => {
      
   return (
     <div>
-       <ReactQuill className='react-quill '     theme="snow" modules={{toolbar:toolbarOptions}}  />
+       <ReactQuill className='react-quill '  onChange={(e)=>setblogdata({...blogdata,content:e})}    theme="snow" modules={{toolbar:toolbarOptions}}  />
     </div>
   )
 }
