@@ -22,7 +22,7 @@ const initialState = {
   savedblogdata: [],
   pagevalue: 1,
   totalvalue: "",
-  likedblogstatus:"idle",
+  likedblogstatus: "idle",
   saveblogstatus: "idle",
   getsaveblogstatus: "idle",
   blogcategorystatus: "idle",
@@ -58,7 +58,6 @@ export const BlogSlice = createSlice({
     },
 
     UpdateStateofrecentblogdata: (state, action) => {
-      console.log(action.payload);
       const updateddata = state.recentblogdata?.filter(
         (value) => value?._id !== action.payload?._id
       );
@@ -69,8 +68,11 @@ export const BlogSlice = createSlice({
       ];
     },
 
+    // UpdateStateofSavedblogdata: (state, action) => {
+    //   state.savedblogdata = [action.payload, ...state.savedblogdata];
+    // },
+
     UpdatePageValue: (state, action) => {
-     
       state.pagevalue = action.payload;
     },
   },
@@ -115,8 +117,6 @@ export const BlogSlice = createSlice({
           state.getallblogs = data?.getBlogs;
           state.totalvalue = data.totalblog;
         }
-
-
 
         state.getallblogstatus = "fulfilled";
       })
@@ -204,7 +204,7 @@ export const BlogSlice = createSlice({
       .addCase(AddSavedBlogdata.fulfilled, (state, action) => {
         if (action?.payload?.success) {
           const { data } = action.payload;
-          data?.length > 0 &&
+          data?.length >=0 &&
             (state.savedblogdata = action?.payload?.data?.reverse());
         }
         state.saveblogstatus = "fulfilled";
@@ -219,6 +219,7 @@ export const BlogSlice = createSlice({
         state.getsaveblogstatus = "pending";
       })
       .addCase(GetSavedBlogdata.fulfilled, (state, action) => {
+        console.log(action.payload)
         if (action?.payload?.success) {
           state.savedblogdata = action.payload.data?.reverse();
         }
@@ -228,14 +229,13 @@ export const BlogSlice = createSlice({
         state.getsaveblogstatus = "rejected";
       });
 
-      // like and dislike the blog 
+    // like and dislike the blog
 
-      builder
+    builder
       .addCase(Likeandisliketheblog.pending, (state, action) => {
         state.likedblogstatus = "pending";
       })
       .addCase(Likeandisliketheblog.fulfilled, (state, action) => {
-       
         state.likedblogstatus = "fulfilled";
       })
       .addCase(Likeandisliketheblog.rejected, (state, action) => {
@@ -250,4 +250,5 @@ export const {
   DeleteBlogtoState,
   UpdateStateofrecentblogdata,
   UpdatePageValue,
+  UpdateStateofSavedblogdata
 } = BlogSlice.actions;

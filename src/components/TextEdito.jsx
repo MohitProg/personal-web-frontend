@@ -25,7 +25,7 @@ const TextEdito = ({setblogdata,blogdata}) => {
      
   return (
     <div>
-       <ReactQuill className='react-quill '  onChange={(e)=>setblogdata({...blogdata,content:e})}    theme="snow" modules={{toolbar:toolbarOptions}}  />
+       <ReactQuill className='react-quill ' value={blogdata?.content}  onChange={(e)=>setblogdata({...blogdata,content:e})}    theme="snow" modules={{toolbar:toolbarOptions}}  />
     </div>
   )
 }

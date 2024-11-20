@@ -12,7 +12,7 @@ import SideMenu from "../modal/SideMenu";
 import { useDispatch, useSelector } from "react-redux";
 import { GetSingleUserdata } from "../Redux/Api/userApi";
 import toast from "react-hot-toast";
-import { GetAllblogs, Getrecentblogdata, GetUserblog } from "../Redux/Api/blogApi";
+import { GetAllblogs, Getrecentblogdata, GetSavedBlogdata, GetUserblog } from "../Redux/Api/blogApi";
 
 const Navbar = () => {
   
@@ -39,7 +39,7 @@ const Navbar = () => {
 
   // getting data of user from here 
 const {userdata,singleuserstatus}=useSelector((state)=>state.user);
-const {userblogstatus,getallblogstatus,getrecentblogstatus,pagevalue}=useSelector((state)=>state.blog);
+const {userblogstatus,getallblogstatus,getrecentblogstatus,pagevalue,getsaveblogstatus}=useSelector((state)=>state.blog);
 const token=localStorage.getItem("token");
 
 
@@ -63,10 +63,11 @@ useEffect(()=>{
 
   getrecentblogstatus==="idle" && token && dispatch(Getrecentblogdata())
  userblogstatus==="idle" && token && dispatch(GetUserblog())
+ getsaveblogstatus==="idle" && token &&  dispatch(GetSavedBlogdata());
 
 
 
-},[dispatch,userblogstatus,singleuserstatus,getallblogstatus,getrecentblogstatus,token,pagevalue])
+},[dispatch,userblogstatus,singleuserstatus,getallblogstatus,getsaveblogstatus,getrecentblogstatus,token,pagevalue])
 
 
 console.log(pagevalue)
@@ -81,6 +82,9 @@ useEffect(()=>{
   
 },[pagevalue])
 
+
+
+
   return (
     <>
       <Topmenu setopenmenu={setopenmenu} openmenu={openmenu} />
@@ -88,9 +92,10 @@ useEffect(()=>{
 
       <header className={`${darkmode ? "dark" : ""} ${["/admin/allblog","/admin/alluser","/addblog","/login","/signup"].includes(path)?"hidden":"block"}`}>
         <nav className="p-3 bg-white flex  justify-between items-center dark:bg-[#090D1F]  ">
-          <h1 className=" text-2xl dark:text-white sm:text-3xl font-bold">
+          <div className=" flex items-center gap-2 text-2xl dark:text-white sm:text-3xl font-bold">
+            <Avatar src="http://res.cloudinary.com/dmd35imtv/image/upload/v1732077509/z7l9bdejwaxqzu660ug5.webp"/>
            WebTech
-          </h1>
+          </div>
 
           <div className="flex gap-2 items-center">
             <div className="sm:flex gap-5 items-center text-[#1A1A1A] hidden ">

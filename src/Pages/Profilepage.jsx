@@ -14,7 +14,6 @@ import { LogoutUser } from "../Redux/Api/userApi";
 import toast from "react-hot-toast";
 import Loader from "../components/Loader";
 const Profilepage = () => {
-
   // state for edit profile modal
   const [editprofile, seteditprofile] = useState(false);
   // state for giving open modal for small screen to give more option
@@ -23,45 +22,40 @@ const Profilepage = () => {
   const { darkmode } = useThemeContext();
   // geting user data
   const { userdata } = useSelector((state) => state.user);
-  const { userblog,savedblogdata,getsaveblogstatus,userblogstatus } = useSelector((state) => state.blog);
-  const dispatch=useDispatch()
+  const { userblog, savedblogdata, getsaveblogstatus, userblogstatus } =
+    useSelector((state) => state.blog);
+  const dispatch = useDispatch();
 
+  // state for tabs
+  const [tabs, settabs] = useState({
+    tab: "Your blog",
+  });
 
-  // state for tabs 
-  const [tabs,settabs]=useState({
-    tab:"Your blog",
-   
-  })
+  console.log(savedblogdata, tabs);
 
- 
+  // useEffect(() => {
+  //   if (getsaveblogstatus === "idle") {
+  //     dispatch(GetSavedBlogdata());
+  //   }
+  // }, [getsaveblogstatus, dispatch]);
 
-  console.log(savedblogdata,tabs)
-  
-  useEffect(()=>{
-    if(getsaveblogstatus==="idle"){
-      dispatch(GetSavedBlogdata())
-    }
+  // Logout user functionality
 
-  },[getsaveblogstatus,dispatch])
+  const HandleLogoutuser = () => {
+    dispatch(LogoutUser())
+      .unwrap()
+      .then((res) => {
+        if (res.success) {
+          toast.success(res.message);
+          localStorage.removeItem("token");
+          localStorage.removeItem("userid");
+          window.location.href = "/login";
+        } else {
+          toast.error(res.message);
+        }
+      });
+  };
 
-
-  // Logout user functionality 
-
-  const HandleLogoutuser=()=>{
-    dispatch(LogoutUser()).unwrap().then((res)=>{
-      if(res.success){
-         toast.success(res.message)
-         localStorage.removeItem("token")
-         localStorage.removeItem("userid")
-         window.location.href='/login'
-      }else {
-         toast.error(res.message)
-      }
-    })
-
-  }
-
- 
   return (
     <>
       {/* profile edit modal  */}
@@ -83,16 +77,25 @@ const Profilepage = () => {
               >
                 Edit Profile
               </li>
-              <li className="hover:bg-[#5941C6] dark:text-[#C0C5D0] hover:text-white rounded-lg py-2 px-3 transition-all duration-300 ease-in-out cursor-pointer" onClick={()=>settabs({tab:"Your blog"})}>
+              <li
+                className="hover:bg-[#5941C6] dark:text-[#C0C5D0] hover:text-white rounded-lg py-2 px-3 transition-all duration-300 ease-in-out cursor-pointer"
+                onClick={() => {settabs({ tab: "Your blog" }),setopenMoreModal(false)}}
+              >
                 Your Blogs
               </li>
-              <li className="hover:bg-[#5941C6] dark:text-[#C0C5D0] hover:text-white rounded-lg py-2 px-3 transition-all duration-300 ease-in-out cursor-pointer"  onClick={()=>settabs({tab:"Saved blog"})}>
+              <li
+                className="hover:bg-[#5941C6] dark:text-[#C0C5D0] hover:text-white rounded-lg py-2 px-3 transition-all duration-300 ease-in-out cursor-pointer"
+                onClick={() => {settabs({ tab: "Saved blog" }),setopenMoreModal(false)}}
+              >
                 Saved Blog
               </li>
               <li className="hover:bg-[#5941C6] dark:text-[#C0C5D0] hover:text-white rounded-lg py-2 px-3 transition-all duration-300 ease-in-out cursor-pointer">
                 Delete Account
               </li>
-              <li className="hover:bg-[#5941C6] dark:text-[#C0C5D0] hover:text-white rounded-lg py-2 px-3 transition-all duration-300 ease-in-out cursor-pointer" onClick={HandleLogoutuser}>
+              <li
+                className="hover:bg-[#5941C6] dark:text-[#C0C5D0] hover:text-white rounded-lg py-2 px-3 transition-all duration-300 ease-in-out cursor-pointer"
+                onClick={HandleLogoutuser}
+              >
                 Logout Account
               </li>
             </ul>
@@ -155,64 +158,88 @@ const Profilepage = () => {
                 >
                   Edit Profile
                 </li>
-                <li className="hover:bg-[#5941C6] dark:text-[#C0C5D0] hover:text-white rounded-lg py-2 px-3 transition-all duration-300 ease-in-out cursor-pointer" onClick={()=>settabs({tab:"Your blog"})}>
+                <li
+                  className="hover:bg-[#5941C6] dark:text-[#C0C5D0] hover:text-white rounded-lg py-2 px-3 transition-all duration-300 ease-in-out cursor-pointer"
+                  onClick={() => settabs({ tab: "Your blog" })}
+                >
                   Your Blogs
                 </li>
-                <li className="hover:bg-[#5941C6] dark:text-[#C0C5D0] hover:text-white rounded-lg py-2 px-3 transition-all duration-300 ease-in-out cursor-pointer"  onClick={()=>settabs({tab:"Saved blog"})}>
+                <li
+                  className="hover:bg-[#5941C6] dark:text-[#C0C5D0] hover:text-white rounded-lg py-2 px-3 transition-all duration-300 ease-in-out cursor-pointer"
+                  onClick={() => settabs({ tab: "Saved blog" })}
+                >
                   Saved Blog
                 </li>
                 <li className="hover:bg-[#5941C6] dark:text-[#C0C5D0] hover:text-white rounded-lg py-2 px-3 transition-all duration-300 ease-in-out cursor-pointer">
                   Delete Account
                 </li>
-                <li className="hover:bg-[#5941C6] dark:text-[#C0C5D0] hover:text-white rounded-lg py-2 px-3 transition-all duration-300 ease-in-out cursor-pointer" onClick={HandleLogoutuser}>
+                <li
+                  className="hover:bg-[#5941C6] dark:text-[#C0C5D0] hover:text-white rounded-lg py-2 px-3 transition-all duration-300 ease-in-out cursor-pointer"
+                  onClick={HandleLogoutuser}
+                >
                   Logout Account
                 </li>
               </ul>
             </div>
             <div className="flex items-center justify-center sm:justify-end p-2 w-full ">
               <Link to={"/addblog"} className="hover:bg-[#5941C6] rounded-full">
-              <Tooltip title="Add blog" arrow>
-                
-                <ControlPointRoundedIcon
-                style={{height:"50px",width:'50px'}}
-                  className="text-[#5941C6]  hover:text-white"
-                  fontSize="large"
-                />
-              </Tooltip>
+                <Tooltip title="Add blog" arrow>
+                  <ControlPointRoundedIcon
+                    style={{ height: "50px", width: "50px" }}
+                    className="text-[#5941C6]  hover:text-white"
+                    fontSize="large"
+                  />
+                </Tooltip>
               </Link>
             </div>
           </div>
 
           {/* Blog Section */}
 
-          { tabs?.tab==="Your blog"  ? 
+          {tabs?.tab === "Your blog" ? (
             <>
-
-            {userblogstatus!=="fullfilled"?<>
-            <Loader/>
-            
-            </>:<div className="flex-grow grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2  gap-6 sm:p-4">
-                {userblog &&
-                  userblog.map((value) => <BlogItem value={value} />)}
-              </div>}
-              
+              {userblogstatus !== "fullfilled" ? (
+                <>
+                  <Loader />
+                </>
+              ) : (
+                <div className="flex-grow grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2  gap-6 sm:p-4">
+                  {userblog && userblog?.length > 0 ? (
+                    <>
+                      {userblog.map((value) => (
+                        <BlogItem value={value} />
+                      ))}
+                    </>
+                  ) : (
+                    "No Blog is Available"
+                  )}
+                </div>
+              )}
             </>
-           : tabs?.tab==="Saved blog"?
-           <>
-           <div className="flex-grow grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2  gap-6 sm:p-4">
-                {savedblogdata &&
-                  savedblogdata.map((value) => <BlogItem value={value} />)}
+          ) : tabs?.tab === "Saved blog" ? (
+            <>
+              <div className="flex-grow grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2  gap-6 sm:p-4">
+              {savedblogdata && savedblogdata?.length > 0 ? (
+                    <>
+                      {savedblogdata.map((value) => (
+                        <BlogItem value={value} />
+                      ))}
+                    </>
+                  ) : (
+                    "No Blog is Available"
+                  )}
               </div>
-           
-           </>
-            :<div className="w-full flex items-center justify-center">
-            <h1 className="font-semibold  ">No Blog is Available </h1>
-          </div>
-          }
+            </>
+          ) : (
+            <div className="w-full flex items-center justify-center">
+              <h1 className="font-semibold  ">No Blog is Available </h1>
+            </div>
+          )}
         </div>
       </div>
 
       <EditProfileModal
+      setopenMoreModal={setopenMoreModal}
         seteditprofile={seteditprofile}
         editprofile={editprofile}
       />

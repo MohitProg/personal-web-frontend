@@ -6,7 +6,7 @@ import AttachFileIcon from "@mui/icons-material/AttachFile";
 import { UpdateUser } from "../Redux/Api/userApi";
 import toast from "react-hot-toast";
 
-const EditProfileModal = ({ seteditprofile, editprofile }) => {
+const EditProfileModal = ({ seteditprofile,setopenMoreModal, editprofile }) => {
   const { darkmode } = useThemeContext();
   // dispatch object
   const dispatch = useDispatch();
@@ -45,6 +45,8 @@ const EditProfileModal = ({ seteditprofile, editprofile }) => {
       .then((res) => {
         if (res.success) {
           toast.success(res.message);
+          seteditprofile(false)
+          setopenMoreModal(false)
         } else {
           toast.error(res.message);
         }

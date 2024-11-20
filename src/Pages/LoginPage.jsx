@@ -3,11 +3,19 @@ import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { LoginUser } from "../Redux/Api/userApi";
 import toast from "react-hot-toast";
-
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 const LoginPage = () => {
   const dispatch = useDispatch();
   const Navigate = useNavigate();
 
+  // state for hiding and showing user data 
+  const [showpassword,setshowpassword]=useState({
+    bol:false,
+    type:''
+  })
+
+  // state of user data 
   const [user, setuser] = useState({
     email: "",
     password: "",
@@ -73,15 +81,23 @@ const LoginPage = () => {
               >
                 Password
               </label>
+
+              <div className="w-full relative flex ">
+
               <input
-                type="password"
+                type={showpassword?.type}
                 id="password"
                 name="password"
+                maxLength={15}
                 value={user?.password}
                 onChange={(e) => setuser({ ...user, password: e.target.value })}
                 required
                 className="w-full px-4 py-2 mt-1 border border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
+
+              {showpassword?.bol?<VisibilityOffIcon onClick={()=>setshowpassword({bol:!showpassword?.bol,type:"text"})} fontSize="small" className="absolute  right-2 top-[40%]   "/>:<RemoveRedEyeIcon onClick={()=>setshowpassword({bol:!showpassword?.bol,type:"password"})} fontSize="small" className="absolute  right-2 top-[40%]   "/>}
+
+              </div>
             </div>
 
             {/* <!-- Login Button --> */}

@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import BlogItem from "../components/BlogItem";
-import NewsLatter from "../components/NewsLatter";
-import { Recentblogdata } from "../data/blogdata";
 import { useThemeContext } from "../context/ThemeContext";
 import SendIcon from "@mui/icons-material/Send";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,10 +12,14 @@ import CloseIcon from "@mui/icons-material/Close";
 import { DeleteCommentfromState } from "../Redux/Slice/commentSlice";
 import Loader from "../components/Loader";
 const Singleblog = () => {
+  // token 
+  const token=localStorage.getItem("token")
   // getting id
   const { pathname } = useLocation();
 
   const blogid = pathname.split("/")[2];
+  // user id 
+  const userid=localStorage.getItem("userid")
 
   //  dark mode context
   const { darkmode } = useThemeContext();
@@ -32,6 +34,8 @@ const Singleblog = () => {
   const { getcommentstatus, commentsdata } = useSelector(
     (state) => state.comment
   );
+
+  console.log(commentsdata)
   const [comments, setcomments] = useState({
     id: "",
     comment: "",
@@ -40,26 +44,32 @@ const Singleblog = () => {
 
 
   const HandleComment = () => {
+
+    if(token?.length>0 & token!==null){
+
+      if(comments?.comment?.length>0 ){
+  
+        dispatch(PostCommentonBlog(comments))
+          .unwrap()
+          .then((res) => {
+            if (res.success) {
+              toast.success(res.message);
+              setcomments({
+                id: "",
+                comment: "",
+              });
+            } else {
+              toast.error(res.message);
+            }
+          });
+      }else{
+        toast.error("please fill required field")
+      }
+    }else{
+      alert("login to your account ")
+    }
   
 
-    if(comments?.comment?.length>0){
-
-      dispatch(PostCommentonBlog(comments))
-        .unwrap()
-        .then((res) => {
-          if (res.success) {
-            toast.success(res.message);
-            setcomments({
-              id: "",
-              comment: "",
-            });
-          } else {
-            toast.error(res.message);
-          }
-        });
-    }else{
-      toast.error("please add comment first")
-    }
   };
 
   // handle to delete comment
@@ -81,6 +91,7 @@ const Singleblog = () => {
   
 
   useEffect(() => {
+    
     dispatch(GetblogbyId(blogid))
       .unwrap()
       .then((res) => {
@@ -193,12 +204,13 @@ const Singleblog = () => {
                             </p>
                           </div>
                           <div className="text-purple-400 text-[0.7rem] sm:text-sm  h-full  flex flex-col gap-3 items-end ">
-                            <button
+                            {userid===value?.senderId?._id &&  <button
                               onClick={() => DeleteComment(value?._id)}
                               className="hover:bg-[#6941C6] dark:text-white hover:text-white rounded-full p-1 transition-colors duration-200 ease-in-out"
                             >
                               <CloseIcon fontSize="small" />
-                            </button>
+                            </button>}
+                           
                             {moment(value?.createdAt).fromNow()}
                           </div>
                         </div>
@@ -223,7 +235,7 @@ const Singleblog = () => {
                   {blogsbycategory
                     ?.filter((value) => value?._id !== singleblogdata?._id)
                     .map((value) => (
-                      <BlogItem key={value.id} value={value} />
+                      <BlogItem key={value._id} value={value} />
                     ))}
                 </div>
               ) : (
@@ -247,4 +259,4 @@ const Singleblog = () => {
   );
 };
 
-export default Singleblog;
+export default memo(Singleblog) ;

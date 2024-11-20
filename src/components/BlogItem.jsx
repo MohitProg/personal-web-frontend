@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
 import { Link } from "react-router-dom";
 import ThumbUpRoundedIcon from "@mui/icons-material/ThumbUpRounded";
 import moment from "moment";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
+import BookmarkIcon from '@mui/icons-material/Bookmark';
 import {
   AddSavedBlogdata,
   DeleteBlog,
@@ -16,35 +17,57 @@ import {
 import {
   DeleteBlogtoState,
   UpdateStateofrecentblogdata,
+  UpdateStateofSavedblogdata,
 } from "../Redux/Slice/blogslice";
 import toast from "react-hot-toast";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import { Tooltip } from "@mui/material";
 
 const BlogItem = ({ value }) => {
+
+  // token 
+  const token=localStorage.getItem("token")
+  // get recent blog data  for bookmark the state 
+  const {savedblogdata}=useSelector((state)=>state.blog);
+  const [bookmark,setbookmark]=useState(false)
+
+  useEffect(() => {
+    if (savedblogdata && savedblogdata.length > 0) {
+      const isBookmarked = savedblogdata.some((blog) => blog?._id === value?._id);
+     
+      setbookmark(isBookmarked)
+    }
+  }, [savedblogdata,bookmark]);
+
+  console.log(bookmark,value?._id,savedblogdata)
+
+  
+  
+
   // getting user id
   const userid = localStorage.getItem("userid");
   // dispatch
   const dispatch = useDispatch();
   // state to handle like and dislike the blog
-  const [like, setlike] = useState({like:false,count:0});
-  console.log(like,value?._id);
+  const [like, setlike] = useState({ like: false, count: 0 });
+ 
 
   useEffect(() => {
-    setlike({like:value?.likes?.includes(userid),count:value?.likes?.length});
+    setlike({
+      like: value?.likes?.includes(userid),
+      count: value?.likes?.length,
+    });
   }, []);
   // getting user id
 
-  
   // functionality to delete blog data
   const DeleteuserBlog = (blogid) => {
     dispatch(DeleteBlog(blogid))
       .unwrap()
       .then((res) => {
         if (res.success) {
-         
           toast.success(res.message);
-        
+
           dispatch(DeleteBlogtoState(blogid));
         } else {
           toast.error(res.message);
@@ -65,35 +88,51 @@ const BlogItem = ({ value }) => {
 
   // functionality to handle saved blog
   const HandleSavedblog = (blogdata) => {
-    dispatch(AddSavedBlogdata(blogdata?._id))
-      .unwrap()
-      .then((res) => {
-        console.log(res);
-        if (res.success) {
-          toast.success(res.message);
-        } else {
-          toast.error(res.message);
-        }
-      });
+    if(token!==null & token?.length>0){
+
+      dispatch(AddSavedBlogdata(blogdata?._id))
+        .unwrap()
+        .then((res) => {
+          console.log(res);
+          if (res.success) {
+            toast.success(res.message);
+            if(res.message==="Blog saved successfully"){
+              setbookmark(true)
+            }else{
+              setbookmark(false)
+            }
+  
+          
+          } else {
+            toast.error(res.message);
+          }
+        });
+    }else{
+      alert("login to your account")
+    }
   };
 
   //  functionality to like and dislike the blogs
   const HandleReaction = (blogid) => {
-    dispatch(Likeandisliketheblog(blogid))
+    if(token!==null & token?.length>0){
+      dispatch(Likeandisliketheblog(blogid))
       .unwrap()
       .then((res) => {
         if (res.success) {
-          const likecount=res?.data?.likes?.length
-          setlike({count:likecount,like:!like?.like});
-         
+          const likecount = res?.data?.likes?.length;
+          setlike({ count: likecount, like: !like?.like });
+
           toast.success(res.message);
         } else {
           toast.error(res.message);
         }
       });
+    }else{
+      alert("please login to your account ")
+    }
+
+   
   };
-
-
 
   return (
     <>
@@ -138,14 +177,25 @@ const BlogItem = ({ value }) => {
                   </span>
                 </div>
                 <div>
-                  <button className="" onClick={() => HandleSavedblog(value)}>
+
+                  {!bookmark?<button className="" onClick={() => HandleSavedblog(value)}>
+                    
                     <Tooltip title="Saved blog" arrow>
                       <BookmarkBorderIcon
                         className="text-[#6941C6]"
                         fontSize="small"
                       />
                     </Tooltip>
-                  </button>
+                  </button>:<button className="" onClick={() => HandleSavedblog(value)}>
+                    
+                    <Tooltip title="Unsaved blog" arrow>
+                      <BookmarkIcon
+                        className="text-[#6941C6]"
+                        fontSize="small"
+                      />
+                    </Tooltip>
+                  </button>}
+                  
                 </div>
 
                 {userid === value?.Author && (
@@ -174,18 +224,22 @@ const BlogItem = ({ value }) => {
 
             <div className="flex flex-col gap-4">
               {/* Title and Link */}
-              <div className="flex justify-between items-center gap-2">
+              <Link
+                onClick={() => HandleRecentblogdata(value)}
+                to={`/blog/${value?._id}`}
+                className="flex justify-between items-center gap-2"
+              >
                 <h1 className=" text-lg sm:text-2xl font-semibold text-[#333333] dark:text-white transition-all duration-300 ease-in-out hover:text-[#6941C6]">
                   {value?.title?.slice(0, 60)}..
                 </h1>
-                <Link
+                <button
                   onClick={() => HandleRecentblogdata(value)}
                   to={`/blog/${value?._id}`}
                   className="hover:bg-[#6941C6] dark:text-white hover:text-white rounded-full sm:p-2 transition-colors duration-200 ease-in-out"
                 >
                   <ArrowOutwardIcon />
-                </Link>
-              </div>
+                </button>
+              </Link>
 
               {/* Description */}
               <div className="text-[#667085] flex items-center justify-between dark:text-[#C0C5D0] text-base leading-relaxed">
@@ -211,4 +265,4 @@ const BlogItem = ({ value }) => {
   );
 };
 
-export default BlogItem;
+export default memo(BlogItem) ;
