@@ -2,7 +2,7 @@ import axios from "axios";
 
 
 const ApiClient=axios.create({
-    baseURL:`https://personalwebbackend-4cb2.onrender.com/api/v1`,
+    baseURL:`http://localhost:8000/api/v1`,
     headers:{
         "Content-Type":"application/json"
     }
@@ -32,3 +32,7 @@ ApiClient.interceptors.request.use(
   );
   
   export default ApiClient;
+
+
+
+  

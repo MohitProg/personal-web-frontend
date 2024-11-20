@@ -12,8 +12,11 @@ import { useDispatch } from "react-redux";
 import { AddBlog } from "../Redux/Api/blogApi";
 import toast from "react-hot-toast";
 import { AddBlogstoState } from "../Redux/Slice/blogslice";
+import { useNavigate } from "react-router-dom";
 
 const Addblog = () => {
+
+  const Navigate=useNavigate()
   // functionality for select option  of material ui
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
@@ -84,6 +87,8 @@ const Addblog = () => {
   });
 
 
+  console.log(blogdata?.content)
+
 
 
 const HandleSubmit=(e)=>{
@@ -114,6 +119,10 @@ const HandleSubmit=(e)=>{
           file: "",
         }
       )
+
+      Navigate("/profile")
+
+      
     }else{
       toast.error(res.message)
     }

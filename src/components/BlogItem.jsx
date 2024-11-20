@@ -11,11 +11,13 @@ import BookmarkIcon from '@mui/icons-material/Bookmark';
 import {
   AddSavedBlogdata,
   DeleteBlog,
+
   Likeandisliketheblog,
   Updaterecentblogdata,
 } from "../Redux/Api/blogApi";
 import {
   DeleteBlogtoState,
+  DeleteStateofRecentblogdata,
   UpdateStateofrecentblogdata,
   UpdateStateofSavedblogdata,
 } from "../Redux/Slice/blogslice";
@@ -60,20 +62,7 @@ const BlogItem = ({ value }) => {
   }, []);
   // getting user id
 
-  // functionality to delete blog data
-  const DeleteuserBlog = (blogid) => {
-    dispatch(DeleteBlog(blogid))
-      .unwrap()
-      .then((res) => {
-        if (res.success) {
-          toast.success(res.message);
 
-          dispatch(DeleteBlogtoState(blogid));
-        } else {
-          toast.error(res.message);
-        }
-      });
-  };
 
   // functionality to  handle recent blog
   const HandleRecentblogdata = (value) => {
@@ -85,6 +74,23 @@ const BlogItem = ({ value }) => {
         }
       });
   };
+
+    // functionality to delete blog data
+    const DeleteuserBlog = (blog) => {
+      dispatch(DeleteBlog(blog?._id))
+        .unwrap()
+        .then((res) => {
+          if (res.success) {
+            toast.success(res.message)
+            dispatch(DeleteStateofRecentblogdata(blog?._id))
+      
+            dispatch(DeleteBlogtoState(blog?._id))
+            
+          } else {
+            toast.error(res.message);
+          }
+        });
+    };
 
   // functionality to handle saved blog
   const HandleSavedblog = (blogdata) => {
@@ -207,7 +213,7 @@ const BlogItem = ({ value }) => {
                     </button>
 
                     <button
-                      onClick={() => DeleteuserBlog(value?._id)}
+                      onClick={() => DeleteuserBlog(value)}
                       className="text-[#6941C6]"
                     >
                       <Tooltip title="Delete blog" arrow>
@@ -233,8 +239,7 @@ const BlogItem = ({ value }) => {
                   {value?.title?.slice(0, 60)}..
                 </h1>
                 <button
-                  onClick={() => HandleRecentblogdata(value)}
-                  to={`/blog/${value?._id}`}
+                 
                   className="hover:bg-[#6941C6] dark:text-white hover:text-white rounded-full sm:p-2 transition-colors duration-200 ease-in-out"
                 >
                   <ArrowOutwardIcon />

@@ -18,14 +18,14 @@ const TextEdito = ({setblogdata,blogdata}) => {
       
         [{ color: [] }, { background: [] }], // dropdown with defaults from theme
         [{ font: [] }],
-  
+        ["code-block"],
       
         ["clean"], // remove formatting button
       ];
      
   return (
     <div>
-       <ReactQuill className='react-quill ' value={blogdata?.content}  onChange={(e)=>setblogdata({...blogdata,content:e})}    theme="snow" modules={{toolbar:toolbarOptions}}  />
+       <ReactQuill className='react-quill '  value={blogdata?.content}  onChange={(e)=>setblogdata({...blogdata,content:e})}    theme="snow" modules={{toolbar:toolbarOptions}}  />
     </div>
   )
 }

@@ -3,6 +3,21 @@
 @tailwind utilities;
 
 
+/* Ensure the lists display properly */
+ul, ol {
+    list-style-position: inside;
+   
+    
+  }
+  
+  ul {
+    padding-left: 1.5rem; /* Adjust indentation */
+  }
+  
+  ol {
+    padding-left: 1.5rem; /* Adjust indentation */
+  }
+  
 *{
     @apply transition-colors duration-300 ease-in-out
 }

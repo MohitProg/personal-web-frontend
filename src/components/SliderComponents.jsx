@@ -44,9 +44,9 @@ const SliderComponents = ({ data }) => {
           {data &&
             data.map((value) => (
               <SwiperSlide key={value._id}>
-                <div className="flex justify-center items-center ">
+                
                   <BlogItem value={value} />
-                </div>
+                
               </SwiperSlide>
             ))}
         </Swiper>
