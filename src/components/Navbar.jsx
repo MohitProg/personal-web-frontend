@@ -93,7 +93,7 @@ useEffect(()=>{
       <header className={`${darkmode ? "dark" : ""} ${["/admin/allblog","/admin/alluser","/addblog","/login","/signup"].includes(path)?"hidden":"block"}`}>
         <nav className="p-3 bg-white flex  justify-between items-center dark:bg-[#090D1F]  ">
           <div className=" flex items-center gap-2 text-2xl dark:text-white sm:text-3xl font-bold">
-            <Avatar src="http://res.cloudinary.com/dmd35imtv/image/upload/v1732077509/z7l9bdejwaxqzu660ug5.webp"/>
+            <Avatar src="https://res.cloudinary.com/dmd35imtv/image/upload/v1732089292/lmgbiytnocnfoee9613p.webp"/>
            WebTech
           </div>
 

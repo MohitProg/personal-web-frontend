@@ -84,7 +84,7 @@ export const BlogSlice = createSlice({
         state.postblogstatus = "pending";
       })
       .addCase(AddBlog.fulfilled, (state, action) => {
-        state.postblogstatus = "fulfilled";
+        state.postblogstatus = "fullfilled";
       })
       .addCase(AddBlog.rejected, (state, action) => {
         state.postblogstatus = "rejected";
@@ -118,7 +118,7 @@ export const BlogSlice = createSlice({
           state.totalvalue = data.totalblog;
         }
 
-        state.getallblogstatus = "fulfilled";
+        state.getallblogstatus = "fullfilled";
       })
       .addCase(GetAllblogs.rejected, (state, action) => {
         state.getallblogstatus = "rejected";
@@ -130,7 +130,7 @@ export const BlogSlice = createSlice({
         state.deleteblogstatus = "pending";
       })
       .addCase(DeleteBlog.fulfilled, (state, action) => {
-        state.deleteblogstatus = "fulfilled";
+        state.deleteblogstatus = "fullfilled";
       })
       .addCase(DeleteBlog.rejected, (state, action) => {
         state.deleteblogstatus = "rejected";
@@ -160,7 +160,7 @@ export const BlogSlice = createSlice({
         if (action?.payload?.success) {
           state.blogsbycategory = action.payload.data;
         }
-        state.blogcategorystatus = "fulfilled";
+        state.blogcategorystatus = "fullfilled";
       })
       .addCase(Getblogbycategory.rejected, (state, action) => {
         state.blogcategorystatus = "rejected";
@@ -172,7 +172,7 @@ export const BlogSlice = createSlice({
         state.recentblogstatus = "pending";
       })
       .addCase(Updaterecentblogdata.fulfilled, (state, action) => {
-        state.recentblogstatus = "fulfilled";
+        state.recentblogstatus = "fullfilled";
       })
       .addCase(Updaterecentblogdata.rejected, (state, action) => {
         state.recentblogstatus = "rejected";
@@ -190,7 +190,7 @@ export const BlogSlice = createSlice({
           data?.length > 0 &&
             (state.recentblogdata = action?.payload?.data?.reverse());
         }
-        state.getrecentblogstatus = "fulfilled";
+        state.getrecentblogstatus = "fullfilled";
       })
       .addCase(Getrecentblogdata.rejected, (state, action) => {
         state.getrecentblogstatus = "rejected";
@@ -207,7 +207,7 @@ export const BlogSlice = createSlice({
           data?.length >=0 &&
             (state.savedblogdata = action?.payload?.data?.reverse());
         }
-        state.saveblogstatus = "fulfilled";
+        state.saveblogstatus = "fullfilled";
       })
       .addCase(AddSavedBlogdata.rejected, (state, action) => {
         state.saveblogstatus = "rejected";
@@ -223,7 +223,7 @@ export const BlogSlice = createSlice({
         if (action?.payload?.success) {
           state.savedblogdata = action.payload.data?.reverse();
         }
-        state.getsaveblogstatus = "fulfilled";
+        state.getsaveblogstatus = "fullfilled";
       })
       .addCase(GetSavedBlogdata.rejected, (state, action) => {
         state.getsaveblogstatus = "rejected";
@@ -236,7 +236,7 @@ export const BlogSlice = createSlice({
         state.likedblogstatus = "pending";
       })
       .addCase(Likeandisliketheblog.fulfilled, (state, action) => {
-        state.likedblogstatus = "fulfilled";
+        state.likedblogstatus = "fullfilled";
       })
       .addCase(Likeandisliketheblog.rejected, (state, action) => {
         state.likedblogstatus = "rejected";
