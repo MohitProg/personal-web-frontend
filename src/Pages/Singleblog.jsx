@@ -18,7 +18,7 @@ import Loader from "../components/Loader";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { createElement } from "react";
 
-import { dracula } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { dracula,atomOneDark,vs2015 } from "react-syntax-highlighter/dist/esm/styles/hljs";
 const Singleblog = () => {
   // token
   const token = localStorage.getItem("token");
@@ -140,7 +140,7 @@ const Singleblog = () => {
               <div className="bg-gray-800 p-4 rounded-lg overflow-auto">
                 <SyntaxHighlighter
                   language={language}
-                  style={dracula}
+                  style={vs2015}
                   showLineNumbers
                   customStyle={{
                     background: "transparent",
@@ -155,15 +155,13 @@ const Singleblog = () => {
         }
   
         // Render other content with `dangerouslySetInnerHTML`
-        return <div className=" max-w-none"   style={{
-        
-        }} key={index} dangerouslySetInnerHTML={{ __html: node.outerHTML }} />;
+        return <div className="  max-w-none"    key={index} dangerouslySetInnerHTML={{ __html: node.outerHTML }} />;
       });
   
       return elements;
     };
   
-    return <div>{processContent(content)}</div>;
+    return <div className="prose max-w-none">{processContent(content)}</div>;
   };
   
   return (
@@ -216,7 +214,7 @@ const Singleblog = () => {
 
                     <div
                      
-                      className="mt-4  text-[#1c1e22] ring-1  rounded-lg  ring-gray-400 dark:text-white leading-relaxed sm:text-lg p-5"
+                      className="mt-4  dark:text-white  sm:rounded-lg     leading-relaxed sm:text-lg sm:p-5 "
                     >
                       <RenderQuillContent  content={singleblogdata?.content} />
                     </div>

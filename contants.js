@@ -2,7 +2,7 @@ import axios from "axios";
 
 
 const ApiClient=axios.create({
-    baseURL:`http://localhost:8000/api/v1`,
+    baseURL:`https://personalwebbackend-4cb2.onrender.com/api/v1`,
     headers:{
         "Content-Type":"application/json"
     }

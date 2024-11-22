@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { GetSingleUserdata } from "../Redux/Api/userApi";
 import toast from "react-hot-toast";
 import { GetAllblogs, Getrecentblogdata, GetSavedBlogdata, GetUserblog } from "../Redux/Api/blogApi";
+import Searchbar from "./Searchbar";
 
 const Navbar = () => {
   
@@ -96,6 +97,11 @@ useEffect(()=>{
             <Avatar src="https://res.cloudinary.com/dmd35imtv/image/upload/v1732089292/lmgbiytnocnfoee9613p.webp"/>
            WebTech
           </div>
+          <div className=" w-2/4 hidden sm:block">
+
+          <Searchbar value={"hidden"}/>
+          </div>
+
 
           <div className="flex gap-2 items-center">
             <div className="sm:flex gap-5 items-center text-[#1A1A1A] hidden ">

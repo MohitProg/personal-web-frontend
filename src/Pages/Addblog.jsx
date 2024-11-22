@@ -97,7 +97,9 @@ const HandleSubmit=(e)=>{
 
   if(blogdata?.category?.length==0){
     alert("please add category here")
-  }
+  }else{
+
+ 
   const formdata=new FormData();
   formdata.append("title",blogdata?.title)
   formdata.append("category",blogdata?.category)
@@ -129,6 +131,8 @@ const HandleSubmit=(e)=>{
 
     
   })
+
+}
 
 
 
@@ -164,6 +168,7 @@ const HandleSubmit=(e)=>{
                 onChange={(e) =>
                   setblogdata({ ...blogdata, title: e.target.value })
                 }
+                required
                 className="w-full border dark:text-[#C0C5D0] dark:bg-transparent border-gray-300 rounded-md p-2 text-gray-700 focus:ring-2 focus:ring-[#5941C6] focus:outline-none"
                 placeholder="Enter blog title"
               />
@@ -177,6 +182,7 @@ const HandleSubmit=(e)=>{
               <textarea
                 name="summary"
                 value={blogdata?.summary}
+                required
                 onChange={(e) =>
                   setblogdata({ ...blogdata, summary: e.target.value })
                 }
@@ -194,6 +200,7 @@ const HandleSubmit=(e)=>{
               <input
                 type="file"
                 name="file"
+                required
                 onChange={(e) => {
                   setblogdata({ ...blogdata, file: e.target.files[0] }),
                     setfile(e.target.files[0]);

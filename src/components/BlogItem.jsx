@@ -77,19 +77,23 @@ const BlogItem = ({ value }) => {
 
     // functionality to delete blog data
     const DeleteuserBlog = (blog) => {
+     const value=confirm("do you want to delete")
+     if(value){
       dispatch(DeleteBlog(blog?._id))
-        .unwrap()
-        .then((res) => {
-          if (res.success) {
-            toast.success(res.message)
-            dispatch(DeleteStateofRecentblogdata(blog?._id))
-      
-            dispatch(DeleteBlogtoState(blog?._id))
-            
-          } else {
-            toast.error(res.message);
-          }
-        });
+      .unwrap()
+      .then((res) => {
+        if (res.success) {
+          toast.success(res.message)
+          dispatch(DeleteStateofRecentblogdata(blog?._id))
+    
+          dispatch(DeleteBlogtoState(blog?._id))
+          
+        } else {
+          toast.error(res.message);
+        }
+      });
+     }
+    
     };
 
   // functionality to handle saved blog
