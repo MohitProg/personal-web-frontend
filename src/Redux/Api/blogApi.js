@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import ApiClient from "../../../contants";
+import toast from "react-hot-toast";
 
 export const AddBlog = createAsyncThunk("/addblog", async (blogdata) => {
   try {
@@ -13,6 +14,7 @@ export const AddBlog = createAsyncThunk("/addblog", async (blogdata) => {
     return res.data;
   } catch (error) {
     console.log(error);
+    toast.error(error.message)
   }
 });
 
@@ -23,6 +25,7 @@ export const DeleteBlog = createAsyncThunk("/deleteblog", async (blogid) => {
     return res.data;
   } catch (error) {
     console.log(error);
+    toast.error(error.message)
   }
 });
 
@@ -32,15 +35,18 @@ export const GetUserblog = createAsyncThunk("/getuserblog", async () => {
     return res.data;
   } catch (error) {
     console.log(error);
+    toast.error(error.message)
   }
 });
 
-export const GetAllblogs = createAsyncThunk("/getallblogs", async (pagevalue) => {
+export const GetAllblogs = createAsyncThunk("/getallblogs", async ({pagevalue,searchvalue}) => {
+  
   try {
-    const res = await ApiClient.get(`/blog/getblogs?page=${pagevalue||1}&limit=${8}`);
+    const res = await ApiClient.get(`/blog/getblogs?page=${pagevalue||1}&limit=${8}&search=${searchvalue||""}`);
     return res.data;
   } catch (error) {
     console.log(error);
+    toast.error(error.message)
   }
 });
 
@@ -50,6 +56,7 @@ export const GetblogbyId = createAsyncThunk("/getblogid", async (blogid) => {
     return res.data;
   } catch (error) {
     console.log(error);
+    toast.error(error.message)
   }
 });
 
@@ -71,7 +78,8 @@ export const Getblogbycategory = createAsyncThunk(
         const res=await ApiClient.get(`/blog/category/?${params}`)
         return res.data;
     } catch (error) {
-        console.log(error)
+        console.log(error);
+        toast.error(error.message)
 
     }
   }
@@ -85,6 +93,7 @@ export const Updaterecentblogdata = createAsyncThunk("/updateblog", async (blogi
     return res.data;
   } catch (error) {
     console.log(error);
+    toast.error(error.message)
   }
 });
 
@@ -95,6 +104,7 @@ export const Getrecentblogdata = createAsyncThunk("/recentblog", async () => {
     return res.data;
   } catch (error) {
     console.log(error);
+    toast.error(error.message)
   }
 });
 
@@ -107,6 +117,7 @@ export const AddSavedBlogdata = createAsyncThunk("/savedblog", async (blogid) =>
     return res.data;
   } catch (error) {
     console.log(error);
+    toast.error(error.message)
   }
 });
 
@@ -117,6 +128,7 @@ export const GetSavedBlogdata = createAsyncThunk("/getsavedblog", async (blogid)
     return res.data;
   } catch (error) {
     console.log(error);
+    toast.error(error.message)
   }
 });
 
@@ -131,5 +143,8 @@ export const Likeandisliketheblog = createAsyncThunk("/likeanddislike", async (b
     return res.data;
   } catch (error) {
     console.log(error);
+    toast.error(error.message)
   }
 });
+
+

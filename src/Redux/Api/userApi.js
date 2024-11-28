@@ -53,7 +53,7 @@ export const GetSingleUserdata=createAsyncThunk("/user/getuser",async(userdata)=
     try {
         
         const res=await ApiClient.get("/user/getuser")
-        localStorage.setItem("userid",res.data?.data._id)
+        localStorage.setItem("userid",res.data?.data?._id)
         return res.data
     } catch (error) {
         console.log(error)

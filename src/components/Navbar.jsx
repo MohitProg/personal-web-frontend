@@ -12,96 +12,113 @@ import SideMenu from "../modal/SideMenu";
 import { useDispatch, useSelector } from "react-redux";
 import { GetSingleUserdata } from "../Redux/Api/userApi";
 import toast from "react-hot-toast";
-import { GetAllblogs, Getrecentblogdata, GetSavedBlogdata, GetUserblog } from "../Redux/Api/blogApi";
+import {
+  GetAllblogs,
+  Getrecentblogdata,
+  GetSavedBlogdata,
+  GetUserblog,
+} from "../Redux/Api/blogApi";
 import Searchbar from "./Searchbar";
 
 const Navbar = () => {
-  
   // dispatch
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
   // state for navigation
   const Naviagte = useNavigate();
   // state for navbar
   const [openmenu, setopenmenu] = useState(false);
-  // state for side menu page 
-  const [opensidemenu,setsideopenmenu]=useState(false)
+  // state for side menu page
+  const [opensidemenu, setsideopenmenu] = useState(false);
   // setting pathname
   const path = useLocation().pathname;
   // value of dark mode
   const { darkmode } = useThemeContext();
   // Naviagte function for login page
-  
 
   const HandleNaviagte = () => {
     console.log("mohit sharma");
     window.location.href = "/login";
-   
   };
 
-  // getting data of user from here 
-const {userdata,singleuserstatus}=useSelector((state)=>state.user);
-const {userblogstatus,getallblogstatus,getrecentblogstatus,pagevalue,getsaveblogstatus}=useSelector((state)=>state.blog);
-const token=localStorage.getItem("token");
+  // getting data of user from here
+  const { userdata, singleuserstatus } = useSelector((state) => state.user);
+  const {
+    userblogstatus,
+    getallblogstatus,
+    getrecentblogstatus,
+    pagevalue,
+    searchvalue,
+    getsaveblogstatus,
+  } = useSelector((state) => state.blog);
+  const token = localStorage.getItem("token");
 
+  // creating global data dispatching here
 
+  useEffect(() => {
+    if (singleuserstatus === "idle" && token) {
+      dispatch(GetSingleUserdata())
+        .unwrap()
+        .then((res) => {
+          if (!res.success) {
+            toast.error(res.msg);
+            localStorage.removeItem("token");
+          }
+        });
+    }
 
+    getrecentblogstatus === "idle" && token && dispatch(Getrecentblogdata());
+    userblogstatus === "idle" && token && dispatch(GetUserblog());
+    getsaveblogstatus === "idle" && token && dispatch(GetSavedBlogdata());
+  }, [
+    dispatch,
+    userblogstatus,
+    singleuserstatus,
+    getallblogstatus,
+    getsaveblogstatus,
+    getrecentblogstatus,
+    token,
+    pagevalue,
+  ]);
 
-// creating global data dispatching here 
-
-useEffect(()=>{
-  if(singleuserstatus==="idle" && token ){
-
-    dispatch(GetSingleUserdata()).unwrap().then((res)=>{
-     
-      if(!res.success){
-        toast.error(res.msg)
-        localStorage.removeItem("token")
-    
-        
-      }
-    })
-  }
-
-  getrecentblogstatus==="idle" && token && dispatch(Getrecentblogdata())
- userblogstatus==="idle" && token && dispatch(GetUserblog())
- getsaveblogstatus==="idle" && token &&  dispatch(GetSavedBlogdata());
-
-
-
-},[dispatch,userblogstatus,singleuserstatus,getallblogstatus,getsaveblogstatus,getrecentblogstatus,token,pagevalue])
-
-
-console.log(pagevalue)
-useEffect(()=>{
-  if(pagevalue!==0 ){
-
-    dispatch(GetAllblogs(pagevalue));
-  }
  
-  console.log("mohit")
+  // getting blog data according to pagination and blog data
+  useEffect(() => {
+    let timer;
+    if (pagevalue !== 0) {
+      timer = setTimeout(() => {
+        dispatch(GetAllblogs({ pagevalue, searchvalue }));
+      }, 2000);
 
-  
-},[pagevalue])
-
-
-
+      return () => clearTimeout(timer);
+    }
+  }, [pagevalue, searchvalue]);
 
   return (
     <>
       <Topmenu setopenmenu={setopenmenu} openmenu={openmenu} />
-      <SideMenu opensidemenu={opensidemenu} setsideopenmenu={setsideopenmenu}/>
+      <SideMenu opensidemenu={opensidemenu} setsideopenmenu={setsideopenmenu} />
 
-      <header className={`${darkmode ? "dark" : ""} ${["/admin/allblog","/admin/alluser","/addblog","/login","/signup"].includes(path)?"hidden":"block"}`}>
+      <header
+        className={`${darkmode ? "dark" : ""} ${
+          [
+            "/admin/allblog",
+            "/admin/alluser",
+            "/addblog",
+            "/login",
+            "/signup",
+          ].includes(path)
+            ? "hidden"
+            : "block"
+        }`}
+      >
         <nav className="p-3 bg-white flex  justify-between items-center dark:bg-[#090D1F]  ">
           <div className=" flex items-center gap-2 text-2xl dark:text-white sm:text-3xl font-bold">
-            <Avatar src="https://res.cloudinary.com/dmd35imtv/image/upload/v1732089292/lmgbiytnocnfoee9613p.webp"/>
-           WebTech
+            <Avatar src="https://res.cloudinary.com/dmd35imtv/image/upload/v1732089292/lmgbiytnocnfoee9613p.webp" />
+            WebTech
           </div>
           <div className=" w-2/4 hidden sm:block">
-
-          <Searchbar value={"hidden"}/>
+            <Searchbar value={"hidden"} />
           </div>
-
 
           <div className="flex gap-2 items-center">
             <div className="sm:flex gap-5 items-center text-[#1A1A1A] hidden ">
@@ -150,19 +167,18 @@ useEffect(()=>{
 
             {/* toogle for login and profile button  */}
 
-            {token && token?.length>0?
-            <button onClick={()=>setsideopenmenu(true)}>
-              <Avatar src={userdata?.avatar}/>
-            </button>: <button
-              onClick={HandleNaviagte}
-              className="rounded-md px-3 py-1   sm:block  sm:text-lg font-semibold text-white bg-[#5941C6]"
-            >
-              Login
-            </button>}
-
-           
-
-
+            {token && token?.length > 0 ? (
+              <button onClick={() => setsideopenmenu(true)}>
+                <Avatar src={userdata?.avatar} />
+              </button>
+            ) : (
+              <button
+                onClick={HandleNaviagte}
+                className="rounded-md px-3 py-1   sm:block  sm:text-lg font-semibold text-white bg-[#5941C6]"
+              >
+                Login
+              </button>
+            )}
           </div>
         </nav>
       </header>

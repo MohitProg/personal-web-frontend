@@ -16,9 +16,14 @@ const Home = () => {
   const { recentblogdata, getallblogstatus } = useSelector(
     (state) => state.blog
   );
-  const dispatch = useDispatch();
 
+  console.log(getallblogstatus)
+
+  // dispatch
+  const dispatch = useDispatch();
+  // context for a dark mode
   const { darkmode } = useThemeContext();
+  // data of blog from store
   const { getallblogs, totalvalue, pagevalue } = useSelector(
     (state) => state.blog
   );

@@ -11,9 +11,11 @@ import {
   GetSavedBlogdata,
   GetUserblog,
   Likeandisliketheblog,
+
   Updaterecentblogdata,
 } from "../Api/blogApi";
 const initialState = {
+  searchvalue:"",
   userblog: [],
   getallblogs: [],
   recentblogdata: [],
@@ -33,6 +35,7 @@ const initialState = {
   deleteblogstatus: "idle",
   userblogstatus: "idle",
   postblogstatus: "idle",
+  searchblogstatus:"idle"
 };
 export const BlogSlice = createSlice({
   name: "blog",
@@ -79,6 +82,10 @@ export const BlogSlice = createSlice({
     UpdatePageValue: (state, action) => {
       state.pagevalue = action.payload;
     },
+
+    UpdateSearchvalue:(state,action)=>{
+      state.searchvalue=action.payload;
+    }
   },
 
   extraReducers: (builder) => {
@@ -245,6 +252,8 @@ export const BlogSlice = createSlice({
       .addCase(Likeandisliketheblog.rejected, (state, action) => {
         state.likedblogstatus = "rejected";
       });
+
+    
   },
 });
 
@@ -255,5 +264,6 @@ export const {
   UpdateStateofrecentblogdata,
   UpdatePageValue,
   UpdateStateofSavedblogdata,
-  DeleteStateofRecentblogdata
+  DeleteStateofRecentblogdata,
+  UpdateSearchvalue
 } = BlogSlice.actions;

@@ -41,7 +41,7 @@ const BlogItem = ({ value }) => {
     }
   }, [savedblogdata,bookmark]);
 
-  console.log(bookmark,value?._id,savedblogdata)
+ 
 
   
   
