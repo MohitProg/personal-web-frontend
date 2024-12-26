@@ -1,13 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { GetSingleUserdata, LoginUser, LogoutUser, Signupuser, UpdateUser, VerifyOtp } from "../Api/userApi";
+import {
+  GetSingleUserdata,
+  LoginUser,
+  LogoutUser,
+  Signupuser,
+  UpdateUser,
+  VerifyOtp,
+} from "../Api/userApi";
 const initialState = {
   userdata: "",
   signupstatus: "idle",
-  loginstatus:"idle",
+  loginstatus: "idle",
   verifyotpstatus: "idle",
-  singleuserstatus:"idle",
-  updateusertstatus:"idle",
-  logoutstatus:"idle"
+  singleuserstatus: "idle",
+  updateusertstatus: "idle",
+  logoutstatus: "idle",
 };
 export const userSlice = createSlice({
   name: "user",
@@ -25,15 +32,14 @@ export const userSlice = createSlice({
         state.signupstatus = "pending";
       })
       .addCase(Signupuser.fulfilled, (state, action) => {
-       
-        state.signupstatus = "fulfilled";
+        state.signupstatus = "fullfilled";
       })
       .addCase(Signupuser.rejected, (state, action) => {
         state.signupstatus = "rejected";
       });
 
-      // login user 
-      builder
+    // login user
+    builder
       .addCase(LoginUser.pending, (state, action) => {
         state.loginstatus = "pending";
       })
@@ -43,7 +49,7 @@ export const userSlice = createSlice({
         if (success) {
           state.userdata = data;
         }
-        state.loginstatus = "fulfilled";
+        state.loginstatus = "fullfilled";
       })
       .addCase(LoginUser.rejected, (state, action) => {
         state.loginstatus = "rejected";
@@ -55,13 +61,12 @@ export const userSlice = createSlice({
         state.verifyotpstatus = "pending";
       })
       .addCase(VerifyOtp.fulfilled, (state, action) => {
-
         const { success, data } = action.payload;
 
         if (success) {
           state.userdata = data;
         }
-        state.verifyotpstatus = "fulfilled";
+        state.verifyotpstatus = "fullfilled";
       })
       .addCase(VerifyOtp.rejected, (state, action) => {
         state.verifyotpstatus = "rejected";
@@ -73,47 +78,42 @@ export const userSlice = createSlice({
         state.singleuserstatus = "pending";
       })
       .addCase(GetSingleUserdata.fulfilled, (state, action) => {
-      
         const { success, data } = action.payload;
 
         if (success) {
           state.userdata = data;
         }
-        state.singleuserstatus = "fulfilled";
+        state.singleuserstatus = "fullfilled";
       })
       .addCase(GetSingleUserdata.rejected, (state, action) => {
         state.singleuserstatus = "rejected";
       });
 
-
-      // update user data 
-      builder
+    // update user data
+    builder
       .addCase(UpdateUser.pending, (state, action) => {
         state.updateusertstatus = "pending";
       })
       .addCase(UpdateUser.fulfilled, (state, action) => {
-       
         const { success, data } = action.payload;
 
         if (success) {
           state.userdata = data;
         }
-        state.updateusertstatus = "fulfilled";
+        state.updateusertstatus = "fullfilled";
       })
       .addCase(UpdateUser.rejected, (state, action) => {
         state.updateusertstatus = "rejected";
       });
 
-      // logout user 
+    // logout user
 
-      builder
+    builder
       .addCase(LogoutUser.pending, (state, action) => {
         state.logoutstatus = "pending";
       })
       .addCase(LogoutUser.fulfilled, (state, action) => {
-       
-        
-        state.logoutstatus = "fulfilled";
+        state.logoutstatus = "fullfilled";
       })
       .addCase(LogoutUser.rejected, (state, action) => {
         state.logoutstatus = "rejected";

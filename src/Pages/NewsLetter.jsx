@@ -27,16 +27,16 @@ const NewsLetter = () => {
 
   return (
     <>
-      <div className={`${darkmode ? "dark" : ""}`}>
-        <section className="p-6 min-h-screen dark:bg-[#090D1F]">
+  
+        <section className="p-1 cmn-bg sm:p-6 min-h-screen ">
           {/* Heading */}
-          <h1 className="text-xl sm:text-3xl font-semibold dark:text-white mb-6">
+          <h1 className="text-xl ubuntu-medium sm:text-3xl text-white font-semibold  mb-6">
             Trending News
           </h1>
 
           {/* Blog Posts Grid */}
           {blogsbycategory && blogsbycategory?.length > 0 ? (
-            <div className="py-3 mt-3 grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 xl:grid-cols-3">
+            <div className="py-3 mt-3 grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
               {blogsbycategory.map((value) => (
                 <div key={value.id} className="">
                   <BlogItem value={value} />
@@ -49,13 +49,13 @@ const NewsLetter = () => {
             </>
           ) : (
             <>
-              <div className="m-h-screen w-full flex items-center justify-center">
-                <h1>No data found </h1>
+              <div className="m-h-screen w-full flex items-center h-[100vh] justify-center">
+                <h1 className="ubuntu-regular cmn-text">No data found </h1>
               </div>
             </>
           )}
         </section>
-      </div>
+   
     </>
   );
 };

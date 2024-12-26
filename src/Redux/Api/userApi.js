@@ -6,7 +6,7 @@ export const Signupuser=createAsyncThunk("/signup",async(userdata)=>{
     try {
         
         const res=await ApiClient.post("/user/signup",userdata)
-        console.log(res.data)
+        // console.log(res.data)
         return res.data
 
 
@@ -20,7 +20,7 @@ export const LoginUser=createAsyncThunk("/login",async(userdata)=>{
     try {
         
         const res=await ApiClient.post("/user/login",userdata)
-        console.log(res.data)
+        // console.log(res.data)
         return res.data
 
 

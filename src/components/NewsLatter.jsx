@@ -1,6 +1,8 @@
 import React from 'react'
 import { useThemeContext } from '../context/ThemeContext'
 import { useLocation } from 'react-router-dom'
+import { Input } from './ui/input'
+import { Button } from './ui/button'
 
 const NewsLatter = () => {
   const {darkmode}=useThemeContext()
@@ -9,17 +11,17 @@ const NewsLatter = () => {
   <div className={`${darkmode?"dark":""} ${["/profile","/admin/allblog","/admin/alluser","/addblog","/login","/signup"].includes(pathname)?"hidden":"block"}`}>
 
 
-    <section className='p-4 dark:bg-[#090D1F]'>
-        <div className='w-full lg:w-1/2 mx-auto p-2 flex flex-col gap-4  items-center'>
-        <span className='font-semibold  sm:text-xl text-[#6941C6]'>NewsLatter</span>
-            <h1 className='text-2xl sm:text-3xl dark:text-white lg:text-4xl font-semibold'>Stories and interviews</h1>
-            <p className='text-[#1c1e22] dark:text-[#C0C5D0] sm:text-xl text-center'>Subscribe to learn about new features , the latest in technology solutions and updates</p>
+    <section className='p-4 cmn-bg'>
+        <div className='w-full lg:w-1/2 mx-auto p-2 flex flex-col gap-1  items-center'>
+        <span className='font-semibold  sm:text-xl cmn-text ubuntu-medium'>NewsLatter</span>
+            <h1 className='text-2xl text-white sm:text-3xl dark:text-white lg:text-4xl font-semibold ubuntu-bold'>Stories and interviews</h1>
+            <p className='cmn-text sm:text-lg text-center ubuntu-regular'>Subscribe to learn about new features , the latest in technology solutions and updates</p>
             <div className='flex flex-col items-start w-full justify-center '>
-                <div  className='p-2 flex  flex-col sm:flex-row gap-2 items-center w-full'>
-                <input className='sm:px-6 w-full p-2 sm:py-3 outline-none border-2 border-black rounded-md' type="text" placeholder='Enter your email' name="" id="" />
-                <button className='rounded-md px-3 py-2  sm:px-4 sm:py-3 sm:text-xl font-semibold text-white bg-purple-600'>Subscribe</button>
+                <div  className='p-2 flex  flex-col justify-center sm:flex-row gap-2 items-center w-full'>
+                <input className="ring-1 w-full sm:flex-1 ring-black cmn-input rounded-md px-3 p-2 bg-[#1c1f26]  " type="text" placeholder='Enter your email' name="" id="" />
+                {/* <span className='text-sm px-2 text-[#1c1e22] ubuntu-light'>We care about your data in our privacy policy</span> */}
+                <Button className='  py-4 bg-blue-500  hover:bg-blue-600'>Subscribe</Button>
                 </div>
-                <span className='text-sm px-2 text-[#1c1e22]'>We care about your data in our privacy policy</span>
           
             </div>
 

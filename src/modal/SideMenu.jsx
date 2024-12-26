@@ -20,7 +20,7 @@ const SideMenu = ({ opensidemenu, setsideopenmenu }) => {
             </div>
 
             
-            <ul className="flex flex-col gap-2 font-semibold dark:text-[#C0C5D0] text-gray-600  p-2 text-lg ">
+            <ul className="flex flex-col gap-2 font-semibold ubuntu-medium  dark:text-[#C0C5D0] text-black p-2 text-lg ">
               <Link to={'/profile'} onClick={()=>setsideopenmenu(false)} className="hover:bg-[#5941C6] hover:text-white rounded-lg py-2 px-3 transition-all duration-300 ease-in-out cursor-pointer">
                 Profile
               </Link>

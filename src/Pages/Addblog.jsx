@@ -13,6 +13,10 @@ import { AddBlog } from "../Redux/Api/blogApi";
 import toast from "react-hot-toast";
 import { AddBlogstoState } from "../Redux/Slice/blogslice";
 import { useNavigate } from "react-router-dom";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 
 const Addblog = () => {
 
@@ -59,8 +63,7 @@ const Addblog = () => {
     "E-Learning Development",
   ];
 
-  // state for select
-  const [personName, setPersonName] = useState([]);
+
 
   const handleChange = (event) => {
     const {
@@ -87,13 +90,13 @@ const Addblog = () => {
   });
 
 
-  console.log(blogdata?.content)
+
 
 
 
 const HandleSubmit=(e)=>{
   e.preventDefault();
-  console.log(e)
+ 
 
   if(blogdata?.category?.length==0){
     alert("please add category here")
@@ -134,14 +137,6 @@ const HandleSubmit=(e)=>{
 
 }
 
-
-
-
-
-
-
-
-
 }
 
   // state for file here
@@ -149,19 +144,20 @@ const HandleSubmit=(e)=>{
 
   return (
     <>
-      <div className={`${darkmode ? "dark" : ""}`}>
-        <div className="w-full  min-h-screen mx-auto p-6 dark:bg-[#090D1F] bg-white ">
-          <h2 className="text-2xl dark:text-[#C0C5D0] font-semibold text-gray-700 mb-6">
+    
+        <div className="w-full  min-h-screen mx-auto p-6 cmn-bg ">
+          <h2 className="text-2xl ubuntu-medium text-white font-semibold  mb-6">
             Add New Blog
           </h2>
 
           <form className="space-y-5 flex flex-col gap-3"  onSubmit={HandleSubmit}>
             {/* Title Field */}
-            <div>
-              <label className="block dark:text-[#C0C5D0] text-gray-600 text-sm font-medium mb-1">
+            <div className="flex flex-col gap-2">
+              <Label
+               className="cmn-text sm:text-xl">
                 Title
-              </label>
-              <input
+              </Label>
+              <Input
                 type="text"
                 name="title"
                 value={blogdata?.title}
@@ -169,43 +165,47 @@ const HandleSubmit=(e)=>{
                   setblogdata({ ...blogdata, title: e.target.value })
                 }
                 required
-                className="w-full border dark:text-[#C0C5D0] dark:bg-transparent border-gray-300 rounded-md p-2 text-gray-700 focus:ring-2 focus:ring-[#5941C6] focus:outline-none"
+                className="cmn-input"
                 placeholder="Enter blog title"
               />
             </div>
 
             {/* Summary Field */}
-            <div>
-              <label className="block dark:text-[#C0C5D0] text-gray-600 text-sm font-medium mb-1">
+            <div className="flex flex-col gap-2">
+              <Label className="cmn-text sm:text-xl">
                 Summary
-              </label>
-              <textarea
+              </Label>
+              <Textarea
                 name="summary"
                 value={blogdata?.summary}
                 required
+                className="cmn-input"
                 onChange={(e) =>
                   setblogdata({ ...blogdata, summary: e.target.value })
                 }
-                className="w-full border dark:text-[#C0C5D0] dark:bg-transparent border-gray-300 rounded-md p-2 text-gray-700 focus:ring-2 focus:ring-[#5941C6] focus:outline-none"
+             
                 placeholder="A short summary of your blog"
                 rows="3"
-              ></textarea>
+              ></Textarea>
             </div>
 
             {/* Thumbnail Image Field */}
-            <div>
-              <label className="block dark:text-[#C0C5D0] text-gray-600 text-sm font-medium mb-1">
+            <div className="flex flex-col gap-2">
+              <Label className="cmn-text sm:text-xl">
                 Thumbnail Image
-              </label>
-              <input
+              </Label>
+              <Input
                 type="file"
                 name="file"
+                className="cmn-input"
                 required
                 onChange={(e) => {
                   setblogdata({ ...blogdata, file: e.target.files[0] }),
                     setfile(e.target.files[0]);
                 }}
-                className="w-full text-gray-600 dark:text-[#C0C5D0] bg-transparent  border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-[#5941C6] focus:outline-none"
+
+               accept="image/*"
+           
               />
 
               {file !== null && (
@@ -219,29 +219,30 @@ const HandleSubmit=(e)=>{
               )}
             </div>
 
-            <div>
-              <label className="block dark:text-[#C0C5D0] text-gray-600 text-sm font-medium mb-1">
+            <div className="flex flex-col gap-2">
+              <Label className="cmn-text sm:text-xl">
                 Category
-              </label>
+              </Label>
               <div>
                 <FormControl sx={{ m: 1, width: "100%" }} size="small">
                   <InputLabel
-                    id="demo-multiple-name-label "
-                    className="dark:text-[#C0C5D0]"
+                    id="demo-multiple-name-Label "
+                    className="cmn-text sm:text-xl"
                   >
                     Tags
                   </InputLabel>
                   <Select
-                    className="dark:ring-gray-500 dark:ring-1"
-                    labelId="demo-multiple-name-label"
+                    className="cmn-input"
+                    LabelId="demo-multiple-name-Label"
                     id="demo-multiple-name"
                     multiple
+
                     value={blogdata?.category||[]}
                     onChange={handleChange}
-                    input={
+                    Input={
                       <OutlinedInput
-                        className="dark:text-[#C0C5D0]"
-                        label="Tags"
+                        className="cmn-text sm:text-xl te"
+                        Label="Tags"
                       />
                     }
                     MenuProps={MenuProps}
@@ -261,25 +262,27 @@ const HandleSubmit=(e)=>{
             </div>
 
             {/* Blog Editor Field */}
-            <div>
-              <label className="block text-gray-600 text-sm font-medium mb-1">
+            <div className="flex flex-col gap-2">
+              <Label className="cmn-text sm:text-xl">
                 Blog Content
-              </label>
-              <TextEdito setblogdata={setblogdata} blogdata={blogdata} />
+              </Label>
+              <TextEdito className="ring-1 ring-black" setblogdata={setblogdata} blogdata={blogdata} />
             </div>
 
             {/* Submit Button */}
             <div className="flex justify-end">
-              <button
+              <Button
+              className="bg-blue-500 hover:bg-blue-600"
                 
-                className="px-6 py-2 bg-[#5941C6] text-white rounded-md hover:bg-blue-600 transition duration-200"
+               
+                
               >
                 Publish Blog
-              </button>
+              </Button>
             </div>
           </form>
         </div>
-      </div>
+     
     </>
   );
 };

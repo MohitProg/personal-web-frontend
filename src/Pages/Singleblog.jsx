@@ -18,7 +18,9 @@ import Loader from "../components/Loader";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { createElement } from "react";
 
-import { dracula,atomOneDark,vs2015 } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { dracula,atomOneDark,vs2015,monokai } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 const Singleblog = () => {
   // token
   const token = localStorage.getItem("token");
@@ -130,17 +132,17 @@ const Singleblog = () => {
           const code = node.textContent;
   
           return (
-            <div key={index} className="relative mb-6">
+            <div key={index} className="relative mb-6 cmn-bg ">
               <button
                 onClick={() => copyToClipboard(code)}
                 className="absolute top-2 right-2 bg-gray-700 text-white px-3 py-1 rounded-md text-sm hover:bg-gray-600 focus:ring-2 focus:ring-blue-500"
               >
                 Copy
               </button>
-              <div className="bg-gray-800 p-4 rounded-lg overflow-auto">
+              <div className=" p-4 rounded-lg overflow-auto">
                 <SyntaxHighlighter
                   language={language}
-                  style={vs2015}
+                  style={monokai}
                   showLineNumbers
                   customStyle={{
                     background: "transparent",
@@ -155,7 +157,7 @@ const Singleblog = () => {
         }
   
         // Render other content with `dangerouslySetInnerHTML`
-        return <div className="  max-w-none"    key={index} dangerouslySetInnerHTML={{ __html: node.outerHTML }} />;
+        return <div className="  max-w-none text-white"    key={index} dangerouslySetInnerHTML={{ __html: node.outerHTML }} />;
       });
   
       return elements;
@@ -168,32 +170,35 @@ const Singleblog = () => {
     <>
       {singleblogtstatus !== "fullfilled" ? (
         <>
+        <div className="cmn-bg">
+
           <Loader />
+        </div>
         </>
       ) : (
-        <div className={`${darkmode ? "dark" : ""}`}>
-          <section className="dark:bg-[#090D1F]">
-            <div className="p-6 w-full grid grid-cols-1 lg:grid-cols-3 gap-8">
-              <div className="lg:col-span-2 flex  flex-col gap-6">
+        
+          <section className="cmn-bg">
+            <div className=" p-2 sm:p-6 w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+              <div className="lg:col-span-3 flex  flex-col gap-6">
                 {/* blog content  */}
                 <div>
-                  <span className="font-semibold sm:text-xl text-[#6941C6]">
+                  <span className="font-semibold ubuntu-light-italic sm:text-xl cmn-text">
                     {moment(singleblogdata?.createdAt).fromNow()}
                   </span>
                   <div className="mt-4 flex gap-10 flex-col">
-                    <h1 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-[#1c1e22] dark:text-white transition-all duration-200 ease-in-out">
+                    <h1 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-white transition-all ubuntu-medium duration-200 ease-in-out">
                       {singleblogdata?.title}
                     </h1>
 
                     <img
                       src={singleblogdata?.file}
                       alt=""
-                      className="rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 ease-in-out"
+                      className="rounded-xl object-fill shadow-lg hover:shadow-2xl transition-shadow duration-300 ease-in-out"
                     />
                     <div className="flex flex-col gap-3">
-                      <p className="font-normal text-base text-gray-600">
+                      <p className="font-normal text-base ubuntu-regular text-gray-600">
                         Created By :{" "}
-                        <span className="font-semibold text-black ">
+                        <span className="font-semibold cmn-text ">
                           {singleblogdata?.Author?.name}
                         </span>
                       </p>
@@ -202,9 +207,9 @@ const Singleblog = () => {
                         {singleblogdata?.category?.map((tag, index) => (
                           <span
                             key={index}
-                            className="font-semibold bg-[#E0E0F8] dark:bg-[#3C3C59] text-[#5941C6] rounded-full px-2 py-1 hover:bg-[#6941C6] dark:text-white hover:text-white transition-colors duration-200 ease-in-out"
+                            className="text-[#96989d] ubuntu-normal  hover:text-white cursor-default bg-[#272b34] p-1 rounded-full text-xs"
                           >
-                            {tag}
+                            #{tag}
                           </span>
                         ))}
                       </div>
@@ -214,7 +219,7 @@ const Singleblog = () => {
 
                     <div
                      
-                      className="mt-4  dark:text-white  sm:rounded-lg     leading-relaxed sm:text-lg sm:p-5 "
+                      className="   sm:rounded-lg ubuntu-regular p-2  text-white bg-[#1c1f26]   leading-relaxed sm:text-lg sm:px-5 "
                     >
                       <RenderQuillContent  content={singleblogdata?.content} />
                     </div>
@@ -226,23 +231,23 @@ const Singleblog = () => {
                 <div className="mt-3 w-full flex flex-col gap-5">
                   {/* input field  */}
                   <div className="w-full flex items-center gap-2 ">
-                    <input
+                    <Input
                       onChange={(e) =>
-                        setcomments({ ...comments, comment: e.target.value })
+                        setcomments({ id:singleblogdata?._id, comment: e.target.value })
                       }
                       value={comments?.comment}
                       type="text"
-                      className=" p-1 sm:p-2 flex-1 ring-black ring-1 rounded-sm  outline-none"
+                     className="cmn-input"
                       placeholder="Enter Comment Here"
                       name=""
                       id=""
                     />
-                    <button
+                    <Button
                       onClick={HandleComment}
-                      className="sm:hover:bg-purple-500 sm:bg-[#5941C6] rounded-md dark:bg-gray-600 sm:dark:hover:bg-purple-500 flex items-center justify-center sm:text-white  sm:px-2 sm:py-1  hover: "
+                      className=" bg-blue-500 hover:bg-blue-600   "
                     >
                       <SendIcon fontSize="large" />
-                    </button>
+                    </Button>
                   </div>
 
                   {/* message field */}
@@ -253,26 +258,26 @@ const Singleblog = () => {
                     {commentsdata && commentsdata?.length > 0 ? (
                       <>
                         {commentsdata?.map((value) => (
-                          <div className=" bg-gray-200 text-white dark:bg-[#1E1E2D] rounded-lg p-2 sm:p-4  flex shadow-sm items-center gap-2 justify-between">
+                          <div className=" bg-[#1c1f26] text-white dark:bg-[#1E1E2D] rounded-lg p-2 sm:p-4  flex shadow-sm items-center gap-2 justify-between">
                             <div
                               key={value?._id}
                               className="flex flex-col  space-y-1"
                             >
-                              <span className="text-sm font-bold text-purple-400">
+                              <span className="text-sm font-bold text-white">
                                 {value?.senderId?.name}
                               </span>
-                              <p className="text-base italic text-black dark:text-gray-300">
+                              <p className="text-base italic cmn-text">
                                 {value?.comment}
                               </p>
                             </div>
-                            <div className="text-purple-400 text-[0.7rem] sm:text-sm  h-full  flex flex-col gap-3 items-end ">
+                            <div className="cmnt-text text-[0.7rem] sm:text-sm  h-full  flex flex-col gap-3 items-end ">
                               {userid === value?.senderId?._id && (
-                                <button
+                                <div
                                   onClick={() => DeleteComment(value?._id)}
-                                  className="hover:bg-[#6941C6] dark:text-white hover:text-white rounded-full p-1 transition-colors duration-200 ease-in-out"
+                                  className="hover:bg-[#512b30]   hover:text-red-500 rounded-full p-2 transition-colors duration-200 ease-in-out"
                                 >
                                   <CloseIcon fontSize="small" />
-                                </button>
+                                </div>
                               )}
 
                               {moment(value?.createdAt).fromNow()}
@@ -282,7 +287,7 @@ const Singleblog = () => {
                       </>
                     ) : (
                       <div>
-                        <h1>No Comment is Available</h1>
+                        <h1 className="ubuntu-regular-italic">No Comment is Available</h1>
                       </div>
                     )}
                   </div>
@@ -290,7 +295,7 @@ const Singleblog = () => {
               </div>
 
               <div className="lg:mt-0">
-                <h1 className=" text-xl sm:text-2xl font-semibold dark:text-white">
+                <h1 className=" text-xl  text-white ubuntu-medium sm:text-2xl font-semibold ">
                   More Blog Posts
                 </h1>
 
@@ -317,7 +322,7 @@ const Singleblog = () => {
       <NewsLatter />
     </div> */}
           </section>
-        </div>
+     
       )}
     </>
   );

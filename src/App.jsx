@@ -24,6 +24,7 @@ import Verfiyotp from "./Pages/verfiyotp";
 import { Toaster } from "react-hot-toast";
 import Auth from "./utils/Auth";
 
+
 function App() {
   return (
     <>

@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
-import MenuIcon from "@mui/icons-material/Menu";
+
 
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import Topmenu from "../modal/Topmenu";
+
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import { useThemeContext } from "../context/ThemeContext";
 
 import Darkmodebtn from "./darkmodebtn";
-import { Avatar } from "@mui/material";
+// import { Avatar } from "@mui/material";
 import SideMenu from "../modal/SideMenu";
 import { useDispatch, useSelector } from "react-redux";
 import { GetSingleUserdata } from "../Redux/Api/userApi";
@@ -19,14 +20,17 @@ import {
   GetUserblog,
 } from "../Redux/Api/blogApi";
 import Searchbar from "./Searchbar";
+import { Button } from "./ui/button";
+import TopMenuForMobile from "./TopMenuForMobile";
+import ProfileDropdown from "./ProfileDropdown";
+// import SideMenuForWeb from "./SideMenuForWeb";
 
 const Navbar = () => {
   // dispatch
   const dispatch = useDispatch();
   // state for navigation
   const Naviagte = useNavigate();
-  // state for navbar
-  const [openmenu, setopenmenu] = useState(false);
+ 
   // state for side menu page
   const [opensidemenu, setsideopenmenu] = useState(false);
   // setting pathname
@@ -80,7 +84,6 @@ const Navbar = () => {
     pagevalue,
   ]);
 
- 
   // getting blog data according to pagination and blog data
   useEffect(() => {
     let timer;
@@ -95,7 +98,7 @@ const Navbar = () => {
 
   return (
     <>
-      <Topmenu setopenmenu={setopenmenu} openmenu={openmenu} />
+    
       <SideMenu opensidemenu={opensidemenu} setsideopenmenu={setsideopenmenu} />
 
       <header
@@ -111,74 +114,84 @@ const Navbar = () => {
             : "block"
         }`}
       >
-        <nav className="p-3 bg-white flex  justify-between items-center dark:bg-[#090D1F]  ">
-          <div className=" flex items-center gap-2 text-2xl dark:text-white sm:text-3xl font-bold">
-            <Avatar src="https://res.cloudinary.com/dmd35imtv/image/upload/v1732089292/lmgbiytnocnfoee9613p.webp" />
+        <nav className="p-3 cmn-bg  flex border-b-2 border-[#949eb6] justify-between items-center  ">
+          <div className=" flex items-center  ubuntu-bold gap-2 text-2xl text-white sm:text-2xl font-bold">
+          
+            <Avatar>
+              <AvatarImage  src="https://res.cloudinary.com/dmd35imtv/image/upload/v1732089292/lmgbiytnocnfoee9613p.webp" />
+              <AvatarFallback>Logo</AvatarFallback>
+            </Avatar>
             WebTech
           </div>
-          <div className=" w-2/4 hidden sm:block">
+          <div className="w-1/3  hidden sm:block">
             <Searchbar value={"hidden"} />
           </div>
 
-          <div className="flex gap-2 items-center">
-            <div className="sm:flex gap-5 items-center text-[#1A1A1A] hidden ">
-              <ul className="flex gap-8 text-lg dark:text-white">
+          <div className="flex gap-2   items-center">
+            <div className="sm:flex gap-5 items-center cmn-text hidden ">
+              <ul className="flex gap-8 text-lg ubuntu-normal dark:text-white">
                 <Link
-                  className={`hover:border-b-2 transition-all duration-200 ease-in-out border-[#090D1F] ${
-                    path === "/" ? "border-b-2" : ""
-                  }`}
+                   className="hover:bg-[#1c1f26] rounded-md p-1" 
                   to="/"
                 >
                   Blog
                 </Link>
                 <Link
-                  className={`hover:border-b-2 transition-all duration-200 ease-in-out border-[#090D1F] ${
-                    path === "/projects" ? "border-b-2" : ""
-                  }`}
+               className="hover:bg-[#1c1f26] rounded-md p-1" 
                   to={"projects"}
                 >
                   Projects
                 </Link>
                 <Link
-                  className={`hover:border-b-2 transition-all duration-200 ease-in-out border-[#090D1F] ${
-                    path === "/about" ? "border-b-2" : ""
-                  }`}
+                   className="hover:bg-[#1c1f26] rounded-md p-1" 
                   to="about"
                 >
                   About
                 </Link>
                 <Link
-                  className={`hover:border-b-2 transition-all duration-200 ease-in-out border-[#090D1F] ${
-                    path === "/newsletter" ? "border-b-2" : ""
-                  }`}
+                  className="hover:bg-[#1c1f26] rounded-md p-1" 
                   to="newsletter"
                 >
                   Newsletter
                 </Link>
               </ul>
-              <Darkmodebtn />
+              {/* <Darkmodebtn /> */}
             </div>
-            <button
-              onClick={() => setopenmenu(true)}
-              className="hover:text-gray-500 dark:text-white sm:hidden"
-            >
-              <MenuIcon fontSize="large" />
-            </button>
+           
+            <div className="px-2">
+              {/* toogle for login and profile button  */}
+        
+             
 
-            {/* toogle for login and profile button  */}
+              {token && token?.length > 0 ? (
+              
 
-            {token && token?.length > 0 ? (
-              <button onClick={() => setsideopenmenu(true)}>
-                <Avatar src={userdata?.avatar} />
-              </button>
-            ) : (
-              <button
-                onClick={HandleNaviagte}
-                className="rounded-md px-3 py-1   sm:block  sm:text-lg font-semibold text-white bg-[#5941C6]"
-              >
-                Login
-              </button>
-            )}
+                <div className=" flex  gap-2 ">
+                  {/* <Darkmodebtn/> */}
+
+                  <ProfileDropdown/>
+                </div>
+              
+               
+              
+              ) : (
+                <Button
+                  className="bg-blue-500 hover:bg-blue-600"
+                  onClick={HandleNaviagte}
+                  type="button"
+                >
+                  Login
+                </Button>
+              )}
+            </div>
+
+            
+            <div className="sm:hidden">
+
+            <TopMenuForMobile />
+            </div>
+              
+
           </div>
         </nav>
       </header>
