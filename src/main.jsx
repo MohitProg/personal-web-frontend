@@ -10,7 +10,10 @@ createRoot(document.getElementById("root")).render(
   <>
     <Provider store={store}>
       <ThemeContextProvider>
+
+
         <App />
+      
       </ThemeContextProvider>
     </Provider>
   </>

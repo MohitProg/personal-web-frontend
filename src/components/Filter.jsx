@@ -1,20 +1,32 @@
-import React from "react";
-import ArrowRightIcon from "@mui/icons-material/ArrowRight";
-import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
-import { SwiperSlide, Swiper } from "swiper/react";
-import { Navigation } from "swiper/modules";
+import React, { useState } from "react";
+
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css";
-import { useThemeContext } from "../context/ThemeContext";
+
 import { useLocation } from "react-router-dom";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel"
+import { Button } from "./ui/button";
+import { useDispatch } from "react-redux";
+import { UpdateCategoryValue } from "@/Redux/Slice/blogslice";
+
 
 const Filter = () => {
-  const { darkmode } = useThemeContext();
-  const {pathname}=useLocation()
+
+  const {pathname}=useLocation();
+  const dispatch=useDispatch();
+  const [select,setselect]=useState("All Blogs")
+  
 
   // category option for search 
   const categorydata = [
+    "All Blogs",
     "Personal Project",
     "Programming Tutorials",
     "Web Development",
@@ -44,84 +56,39 @@ const Filter = () => {
     "E-Learning Development",
   ];
 
+
+  const handleUpadteCategory=(cat)=>{
+    dispatch(UpdateCategoryValue(cat))
+    setselect(cat)
+
+  }
+
   return (
     <>
-      <div className={`${darkmode ? "dark" : ""}  ${["/profile","/admin/allblog","/admin/alluser","/addblog","/login","/signup"].includes(pathname)?"hidden":"block"} `}>
-        <div className="bg-white dark:bg-[#090D1F] py-2 relative">
-          <h1 className="p-3 px-5 text-gary-700 dark:text-[#C0C5D0] text-xl font-semibold ">
-            Category
-          </h1>
-          <Swiper
-          className="  w-4/5 mx-auto mt-2 "
-            onInit={(swiper) => {
-              swiper.params.navigation.nextEl = ".custom-next";
-              swiper.params.navigation.prevEl = ".custom-prev";
-             
-            }}
-
-            onSwiper={(swiper) => {
-              // Update navigation in case Swiper needs to reinitialize
-              swiper.navigation.init();
-              swiper.navigation.update();
-            }}
-            slidesPerView={1}
-            modules={[Navigation]}
-            
-            breakpoints={{
-              // When the screen width is less than 640px
-              640: {
-                slidesPerView: 1,
-                spaceBetween:20
-              },
-              // When the screen width is between 640px and 768px
-              768: {
-                slidesPerView: 3,
-              },
-              // When the screen width is between 768px and 1024px
-              1024: {
-                slidesPerView: 1,
-              },
-              // When the screen width is 1280px or more
-              1280: {
-                slidesPerView: 4,
-                spaceBetween:10
-              },
-            }}
-          >
-
-
-            {categorydata?.map((value,index)=>(
-
-            <SwiperSlide key={index}>
-              <div className="mx-auto flex items-center justify-center p-1">
-                <button className="px-3 py-1 text-lg rounded-md ring-1 ring-[#6941C6] font-semibold text-[#6941C6] transition-colors duration-200 ease-in-out   dark:ring-1 dark:ring-white hover:bg-[#6941C6] hover:text-white dark:text-white dark:border-white dark:bg-transparent dark:hover:bg-[#6941C6] dark:hover:text-white shadow-lg hover:shadow-md dark:hover:shadow-lg">
-                {value}
-                </button>
-              </div>
-            </SwiperSlide>
-            ))}
-           
-          </Swiper>
-
-             {/* custom button for swiper  */}
-
-      {/* right arrow button  */}
-      <div  className=" custom-next bg-gray-300 hover:bg-[#5941C6]  transition-colors duration-200 ease-in-out  p-1 sm:p-2 rounded-full absolute right-0  top-[55%] ">
-        <button>
-
-        <ArrowRightIcon />
-        </button>
-      </div>
-
-      {/* right left arrow button  */}
-      <div className=" custom-prev bg-gray-300 hover:bg-[#5941C6]  transition-colors duration-200 ease-in-out  p-1  sm:p-2 rounded-full absolute left-0  top-[55%] ">
-        <button>
-
-        <ArrowLeftIcon />
-        </button>
-      </div>
-        </div>
-      </div>
+     
+        <div className="cmn-bg mt-5 p-2  ">
+        <Carousel
+      opts={{
+        align: "start",
+        
+      }}
+      className=" sm:w-[90%]  mx-auto"
+    >
+      <CarouselContent className="flex items-center">
+        {categorydata.map((value, index) => (
+          <CarouselItem key={index} className="basis-2/3 sm:basis-2/3 md:basis-1/3 lg:basis-1/4 xl:basis-1/5">
+            <button onClick={()=>handleUpadteCategory(value)}  className={` ${value===select?"bg-blue-500":""} w-full bg-[#1c1f26]  cmn-text font-bold shadow-lg flex items-center justify-center rounded-full p-2`}>
+              {value}
+              
+            </button>
+          </CarouselItem>
+        ))}
+      </CarouselContent>
+      <CarouselPrevious className="hidden sm:flex items-center justify-center bg-[#1c1f26] cmn-text hover:bg-blue-500 border-none cursor-pointer hover:text-white" />
+      <CarouselNext className="hidden sm:flex items-center justify-center bg-[#1c1f26] cmn-text hover:bg-blue-500 border-none cursor-pointer hover:text-white" />
+    </Carousel>
+          
+          </div>  
 
    
     </>

@@ -1,6 +1,6 @@
 import React, { memo, useEffect, useState } from "react";
 import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ThumbUpRoundedIcon from "@mui/icons-material/ThumbUpRounded";
 import moment from "moment";
 import EditIcon from "@mui/icons-material/Edit";
@@ -25,6 +25,7 @@ import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import { Tooltip } from "@mui/material";
 
 const BlogItem = ({ value }) => {
+  const Navigate=useNavigate();
   // token
   const token = localStorage.getItem("token");
   // get recent blog data  for bookmark the state
@@ -129,6 +130,12 @@ const BlogItem = ({ value }) => {
     }
   };
 
+
+  // update blog data 
+  const HandleUpdateblog=(blogid)=>{
+    Navigate(`/updateblog/${blogid}`)
+
+  }
   return (
     <>
       <div key={value?._id}>
@@ -205,7 +212,7 @@ const BlogItem = ({ value }) => {
 
                 {userid === value?.Author && (
                   <div className="flex gap-3">
-                    <button className="sm:hover:bg-[#184a52]  bg-[#1a1f26]  sm:bg-transparent  rounded-full p-2 flex items-center justify-center">
+                    <button onClick={()=>HandleUpdateblog(value?._id)} className="sm:hover:bg-[#184a52]  bg-[#1a1f26]  sm:bg-transparent  rounded-full p-2 flex items-center justify-center">
                       <Tooltip title="Edit blog" arrow>
                         <EditIcon fontSize="medium"     className="text-[#96989d]  hover:text-[#2cdce6]" />
                       </Tooltip>
@@ -237,7 +244,7 @@ const BlogItem = ({ value }) => {
                 to={`/blog/${value?._id}`}
                 className="flex justify-between items-start p-1 gap-2"
               >
-                <h1 className=" h-32 text-2xl ubuntu-medium font-semibold text-white transition-all duration-300 ease-in-out hover:text-[#6941C6]">
+                <h1 className=" h-32 text-2xl ubuntu-medium font-semibold text-white transition-all duration-300 ease-in-out hover:text-blue-500">
                   {value?.title?.slice(0, 60)}.
                 </h1>
 

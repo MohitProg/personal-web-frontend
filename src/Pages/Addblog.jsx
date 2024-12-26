@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { memo, useCallback, useEffect, useState } from "react";
 import TextEdito from "../components/TextEdito";
 import {
   FormControl,
@@ -8,19 +8,18 @@ import {
   Select,
 } from "@mui/material";
 import { useThemeContext } from "../context/ThemeContext";
-import { useDispatch } from "react-redux";
-import { AddBlog } from "../Redux/Api/blogApi";
+import { useDispatch, useSelector } from "react-redux";
+import { AddBlog, GetblogbyId, UpdateUserBlog } from "../Redux/Api/blogApi";
 import toast from "react-hot-toast";
 import { AddBlogstoState } from "../Redux/Slice/blogslice";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 
 const Addblog = () => {
-
-  const Navigate=useNavigate()
+  const Navigate = useNavigate();
   // functionality for select option  of material ui
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
@@ -63,22 +62,23 @@ const Addblog = () => {
     "E-Learning Development",
   ];
 
-
-
   const handleChange = (event) => {
     const {
       target: { value },
     } = event;
-    const category=typeof value === "string" ? value.split(",") : value
-    
-    setblogdata({...blogdata,category:category});
+    const category = typeof value === "string" ? value.split(",") : value;
+
+    setblogdata({ ...blogdata, category: category });
   };
 
   // starting main functionality from here
 
-  const { darkmode } = useThemeContext();
+  const { singleblogdata, singleblogtstatus } = useSelector(
+    (state) => state.blog
+  );
+
   // dispatch
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
 
   // state for hanlde blog data
   const [blogdata, setblogdata] = useState({
@@ -89,202 +89,255 @@ const Addblog = () => {
     file: "",
   });
 
+  const HandleSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
 
+      if (blogdata?.category?.length == 0) {
+        alert("please add category here");
+      } else {
+        const formdata = new FormData();
+        formdata.append("title", blogdata?.title);
+        formdata.append("category", blogdata?.category);
+        formdata.append("summary", blogdata?.summary);
+        formdata.append("content", blogdata?.content);
+        formdata.append("file", blogdata?.file);
 
+        dispatch(AddBlog(blogdata))
+          .unwrap()
+          .then((res) => {
+            if (res.success) {
+              toast.success(res.message);
+              dispatch(AddBlogstoState(res.data));
+              setblogdata({
+                category: "",
+                title: "",
+                summary: "",
+                content: "",
+                file: "",
+              });
 
+              Navigate("/profile");
+            } else {
+              toast.error(res.message);
+            }
+          });
+      }
+    },
+    [blogdata]
+  );
 
-
-const HandleSubmit=(e)=>{
-  e.preventDefault();
- 
-
-  if(blogdata?.category?.length==0){
-    alert("please add category here")
-  }else{
-
- 
-  const formdata=new FormData();
-  formdata.append("title",blogdata?.title)
-  formdata.append("category",blogdata?.category)
-  formdata.append("summary",blogdata?.summary)
-  formdata.append("content",blogdata?.content)
-  formdata.append("file",blogdata?.file)
-
-
-  dispatch(AddBlog(blogdata)).unwrap().then((res)=>{
-    if(res.success){
-      toast.success(res.message)
-      dispatch(AddBlogstoState(res.data))
-      setblogdata(
-        {
-          category: "",
-          title: "",
-          summary: "",
-          content: "",
-          file: "",
-        }
-      )
-
-      Navigate("/profile")
-
-      
-    }else{
-      toast.error(res.message)
-    }
-
-    
-  })
-
-}
-
-}
-
-  // state for file here
+  // state for file
   const [file, setfile] = useState(null);
+
+  // get blog data for update the existing blog  update functionality start from here
+
+  const id = useLocation().pathname.split("/");
+  console.log(id[2]);
+  // state for update and addblog tongle
+  const [Btntoggle, setBtntoggle] = useState(false);
+
+  const updateblogid = id[2];
+  // Track when the first effect finishes dispatching
+  const [isFirstEffectComplete, setIsFirstEffectComplete] = useState(false);
+  // First useEffect
+  useEffect(() => {
+    console.log("useeffect 1");
+    const fetchData = async () => {
+      if (updateblogid?.length > 0 && updateblogid !== null) {
+        try {
+          setBtntoggle(true);
+          await dispatch(GetblogbyId(updateblogid)).unwrap();
+          setIsFirstEffectComplete(true); // Mark the first effect as complete
+        } catch (error) {
+          console.error("Error fetching blog by ID:", error);
+        }
+      }
+    };
+
+    fetchData();
+  }, [updateblogid]);
+
+  // Second useEffect
+  useEffect(() => {
+    console.log("useeffect 2");
+    if (isFirstEffectComplete && Btntoggle) {
+      setblogdata({
+        title: singleblogdata?.title,
+        category: singleblogdata?.category,
+        content: singleblogdata?.content,
+        summary: singleblogdata?.summary,
+        file: singleblogdata?.file,
+      });
+    }
+  }, [isFirstEffectComplete, Btntoggle, singleblogdata]);
+
+  console.log(blogdata);
+
+  const HandleUpdateBlog = (e) => {
+    e.preventDefault();
+
+    const formdata = new FormData();
+    formdata.append("title", blogdata?.title);
+    formdata.append("category", blogdata?.category);
+    formdata.append("summary", blogdata?.summary);
+    formdata.append("content", blogdata?.content);
+    formdata.append("file", blogdata?.file);
+    console.log(updateblogid,formdata)
+
+   if(updateblogid?.length>0 && updateblogid!==null){
+    dispatch(UpdateUserBlog({formdata,updateblogid})).unwrap().then((res)=>{
+
+      console.log(res);
+      if(res.success){
+        Navigate("/profile")
+        toast.success(res.message)
+      }else{
+        toast.error(res.message)
+      }
+    })
+   }
+
+  };
 
   return (
     <>
-    
-        <div className="w-full  min-h-screen mx-auto p-6 cmn-bg ">
-          <h2 className="text-2xl ubuntu-medium text-white font-semibold  mb-6">
-            Add New Blog
-          </h2>
+      <div className="w-full  min-h-screen mx-auto p-6 cmn-bg ">
+        <h2 className="text-2xl ubuntu-medium text-white font-semibold  mb-6">
+          Add New Blog
+        </h2>
 
-          <form className="space-y-5 flex flex-col gap-3"  onSubmit={HandleSubmit}>
-            {/* Title Field */}
-            <div className="flex flex-col gap-2">
-              <Label
-               className="cmn-text sm:text-xl">
-                Title
-              </Label>
-              <Input
-                type="text"
-                name="title"
-                value={blogdata?.title}
-                onChange={(e) =>
-                  setblogdata({ ...blogdata, title: e.target.value })
-                }
-                required
-                className="cmn-input"
-                placeholder="Enter blog title"
-              />
-            </div>
+        <form className="space-y-5 flex flex-col gap-3">
+          {/* Title Field */}
+          <div className="flex flex-col gap-2">
+            <Label className="cmn-text sm:text-xl">Title</Label>
+            <Input
+              type="text"
+              name="title"
+              value={blogdata?.title}
+              onChange={(e) =>
+                setblogdata({ ...blogdata, title: e.target.value })
+              }
+              required
+              className="cmn-input"
+              placeholder="Enter blog title"
+            />
+          </div>
 
-            {/* Summary Field */}
-            <div className="flex flex-col gap-2">
-              <Label className="cmn-text sm:text-xl">
-                Summary
-              </Label>
-              <Textarea
-                name="summary"
-                value={blogdata?.summary}
-                required
-                className="cmn-input"
-                onChange={(e) =>
-                  setblogdata({ ...blogdata, summary: e.target.value })
-                }
-             
-                placeholder="A short summary of your blog"
-                rows="3"
-              ></Textarea>
-            </div>
+          {/* Summary Field */}
+          <div className="flex flex-col gap-2">
+            <Label className="cmn-text sm:text-xl">Summary</Label>
+            <Textarea
+              name="summary"
+              value={blogdata?.summary}
+              required
+              className="cmn-input"
+              onChange={(e) =>
+                setblogdata({ ...blogdata, summary: e.target.value })
+              }
+              placeholder="A short summary of your blog"
+              rows="3"
+            ></Textarea>
+          </div>
 
-            {/* Thumbnail Image Field */}
-            <div className="flex flex-col gap-2">
-              <Label className="cmn-text sm:text-xl">
-                Thumbnail Image
-              </Label>
-              <Input
-                type="file"
-                name="file"
-                className="cmn-input"
-                required
-                onChange={(e) => {
-                  setblogdata({ ...blogdata, file: e.target.files[0] }),
-                    setfile(e.target.files[0]);
-                }}
+          {/* Thumbnail Image Field */}
+          <div className="flex flex-col gap-2">
+            <Label className="cmn-text sm:text-xl">Thumbnail Image</Label>
+            <Input
+              type="file"
+              name="file"
+              className="cmn-input"
+              required
+              onChange={(e) => {
+                setblogdata({ ...blogdata, file: e.target.files[0] }),
+                  setfile(e.target.files[0]);
+              }}
+              accept="image/*"
+            />
 
-               accept="image/*"
-           
-              />
-
-              {file !== null && (
-                <div className="flex items-center  justify-start w-full p-3">
-                  <img
-                    src={file && URL.createObjectURL(file)}
-                    className=" h-60  object-contain"
-                    alt="thumbnail image "
-                  />
-                </div>
-              )}
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <Label className="cmn-text sm:text-xl">
-                Category
-              </Label>
-              <div>
-                <FormControl sx={{ m: 1, width: "100%" }} size="small">
-                  <InputLabel
-                    id="demo-multiple-name-Label "
-                    className="cmn-text sm:text-xl"
-                  >
-                    Tags
-                  </InputLabel>
-                  <Select
-                    className="cmn-input"
-                    LabelId="demo-multiple-name-Label"
-                    id="demo-multiple-name"
-                    multiple
-
-                    value={blogdata?.category||[]}
-                    onChange={handleChange}
-                    Input={
-                      <OutlinedInput
-                        className="cmn-text sm:text-xl te"
-                        Label="Tags"
-                      />
-                    }
-                    MenuProps={MenuProps}
-                  >
-                    {names.map((name) => (
-                      <MenuItem
-                        key={name}
-                        value={name}
-                        //   style={getStyles(name, personName, theme)}
-                      >
-                        {name}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
+            {file !== null && (
+              <div className="flex items-center  justify-start w-full p-3">
+                <img
+                  src={file && URL.createObjectURL(file)}
+                  className=" h-60  object-contain"
+                  alt="thumbnail image "
+                />
               </div>
-            </div>
+            )}
+          </div>
 
-            {/* Blog Editor Field */}
-            <div className="flex flex-col gap-2">
-              <Label className="cmn-text sm:text-xl">
-                Blog Content
-              </Label>
-              <TextEdito className="ring-1 ring-black" setblogdata={setblogdata} blogdata={blogdata} />
-            </div>
+          <div className="flex flex-col gap-2">
+            <Label className="cmn-text sm:text-xl">Category</Label>
+            <div>
+              <FormControl sx={{ m: 1, width: "100%" }} size="small">
+                <InputLabel
+                  id="demo-multiple-name-Label "
+                  className="cmn-text sm:text-xl"
+                >
+                  Tags
+                </InputLabel>
+                <Select
+                  className="cmn-input cmn-text"
+                  sx={{color:"#949eb6",outline:"none"}}
+                  id="demo-multiple-name"
+                  multiple
+                  value={blogdata?.category || []}
+                  onChange={handleChange}
+                  Input={
+                    <OutlinedInput
+                      className=" sm:text-xl te"
+                      
 
-            {/* Submit Button */}
-            <div className="flex justify-end">
+                    />
+                  }
+                  MenuProps={MenuProps}
+                >
+                  {names.map((name) => (
+                    <MenuItem
+                      key={name}
+                      value={name}
+                      //   style={getStyles(name, personName, theme)}
+                    >
+                      {name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </div>
+          </div>
+
+          {/* Blog Editor Field */}
+          <div className="flex flex-col gap-2">
+            <Label className="cmn-text sm:text-xl">Blog Content</Label>
+            <TextEdito
+              className="ring-1 ring-black"
+              setblogdata={setblogdata}
+              blogdata={blogdata}
+            />
+          </div>
+
+          {/* Submit Button */}
+          <div className="flex justify-end">
+            {Btntoggle ? (
               <Button
-              className="bg-blue-500 hover:bg-blue-600"
-                
-               
-                
+                onClick={HandleUpdateBlog}
+                className="bg-blue-500 hover:bg-blue-600"
+              >
+                UpdateBlog
+              </Button>
+            ) : (
+              <Button
+                onClick={HandleSubmit}
+                className="bg-blue-500 hover:bg-blue-600"
               >
                 Publish Blog
               </Button>
-            </div>
-          </form>
-        </div>
-     
+            )}
+          </div>
+        </form>
+      </div>
     </>
   );
 };
 
-export default Addblog;
+export default memo(Addblog);

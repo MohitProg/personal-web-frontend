@@ -39,10 +39,26 @@ export const GetUserblog = createAsyncThunk("/getuserblog", async () => {
   }
 });
 
-export const GetAllblogs = createAsyncThunk("/getallblogs", async ({pagevalue,searchvalue}) => {
+
+
+
+export const UpdateUserBlog=createAsyncThunk("/updateblog",async({formdata,updateblogid})=>{
   
   try {
-    const res = await ApiClient.get(`/blog/getblogs?page=${pagevalue||1}&limit=${8}&search=${searchvalue||""}`);
+    const res = await ApiClient.put(`/blog/updateblog/${updateblogid}`,formdata);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    toast.error(error.message)
+  }
+})
+
+
+
+export const GetAllblogs = createAsyncThunk("/getallblogs", async ({pagevalue,searchvalue,category}) => {
+  
+  try {
+    const res = await ApiClient.get(`/blog/getblogs?page=${pagevalue||1}&limit=${8}&search=${searchvalue||""}&category=${category||""}`);
     return res.data;
   } catch (error) {
     console.log(error);
@@ -86,7 +102,7 @@ export const Getblogbycategory = createAsyncThunk(
 );
 
 
-export const Updaterecentblogdata = createAsyncThunk("/updateblog", async (blogid) => {
+export const Updaterecentblogdata = createAsyncThunk("/recent/updateblog", async (blogid) => {
   try {
     const res = await ApiClient.put(`/blog/recentblog/${blogid}`);
  

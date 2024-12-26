@@ -53,6 +53,7 @@ const Navbar = () => {
     pagevalue,
     searchvalue,
     getsaveblogstatus,
+    category
   } = useSelector((state) => state.blog);
   const token = localStorage.getItem("token");
 
@@ -89,12 +90,12 @@ const Navbar = () => {
     let timer;
     if (pagevalue !== 0) {
       timer = setTimeout(() => {
-        dispatch(GetAllblogs({ pagevalue, searchvalue }));
-      }, 2000);
+        dispatch(GetAllblogs({ pagevalue, searchvalue,category }));
+      }, 500);
 
       return () => clearTimeout(timer);
     }
-  }, [pagevalue, searchvalue]);
+  }, [pagevalue, searchvalue,category]);
 
   return (
     <>

@@ -1,6 +1,7 @@
 import axios from "axios";
 
 
+let url="https://personalwebbackend-4cb2.onrender.com"
 const ApiClient=axios.create({
     baseURL:`https://personalwebbackend-4cb2.onrender.com/api/v1`,
     headers:{

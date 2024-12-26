@@ -42,6 +42,7 @@ function App() {
           </>
         )}
 
+
         <Routes>
           {/* Public routes */}
           <Route path="/login" element={<LoginPage />} />
@@ -68,6 +69,7 @@ function App() {
               </Route>
 
               {/* Other protected routes */}
+              <Route path="updateblog/:id" element={<Addblog />} />
               <Route path="addblog" element={<Addblog />} />
               <Route path="blog" element={<Blog />} />
             </Route>

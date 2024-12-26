@@ -13,6 +13,7 @@ import {
   Likeandisliketheblog,
 
   Updaterecentblogdata,
+  UpdateUserBlog,
 } from "../Api/blogApi";
 const initialState = {
   searchvalue:"",
@@ -22,6 +23,7 @@ const initialState = {
   singleblogdata: [],
   blogsbycategory: [],
   savedblogdata: [],
+  category:"",
   pagevalue: 1,
   totalvalue: "",
   likedblogstatus: "idle",
@@ -35,7 +37,9 @@ const initialState = {
   deleteblogstatus: "idle",
   userblogstatus: "idle",
   postblogstatus: "idle",
-  searchblogstatus:"idle"
+  searchblogstatus:"idle",
+  updateblogstatus:"idle"
+
 };
 export const BlogSlice = createSlice({
   name: "blog",
@@ -85,6 +89,10 @@ export const BlogSlice = createSlice({
 
     UpdateSearchvalue:(state,action)=>{
       state.searchvalue=action.payload;
+    },
+
+    UpdateCategoryValue:(state,action)=>{
+state.category=action.payload;
     }
   },
 
@@ -253,6 +261,17 @@ export const BlogSlice = createSlice({
         state.likedblogstatus = "rejected";
       });
 
+      // update blgodata 
+      builder
+      .addCase(UpdateUserBlog.pending, (state, action) => {
+        state.updateblogstatus = "pending";
+      })
+      .addCase(UpdateUserBlog.fulfilled, (state, action) => {
+        state.updateblogstatus = "fullfilled";
+      })
+      .addCase(UpdateUserBlog.rejected, (state, action) => {
+        state.updateblogstatus = "rejected";
+      });
     
   },
 });
@@ -265,5 +284,6 @@ export const {
   UpdatePageValue,
   UpdateStateofSavedblogdata,
   DeleteStateofRecentblogdata,
-  UpdateSearchvalue
+  UpdateSearchvalue,
+  UpdateCategoryValue
 } = BlogSlice.actions;
