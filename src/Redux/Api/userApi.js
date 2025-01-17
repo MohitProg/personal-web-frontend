@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import ApiClient from "../../../contants";
+import toast from "react-hot-toast";
 
 export const Signupuser=createAsyncThunk("/signup",async(userdata)=>{
     try {
@@ -12,6 +13,7 @@ export const Signupuser=createAsyncThunk("/signup",async(userdata)=>{
 
     } catch (error) {
         console.log(error)
+        toast.error(error.message)
     }
 
 })
@@ -25,7 +27,8 @@ export const LoginUser=createAsyncThunk("/login",async(userdata)=>{
 
 
     } catch (error) {
-        console.log(error)
+        console.log(error);
+        toast.error(error.message)
     }
 
 })
@@ -41,6 +44,7 @@ export const VerifyOtp=createAsyncThunk("/otp",async(otp)=>{
 
     } catch (error) {
         console.log(error)
+        toast.error(error.message)
     }
 
 })
@@ -57,6 +61,7 @@ export const GetSingleUserdata=createAsyncThunk("/user/getuser",async(userdata)=
         return res.data
     } catch (error) {
         console.log(error)
+        toast.error(error.message)
     }
 
 })
@@ -75,6 +80,7 @@ export const UpdateUser=createAsyncThunk("/user/update",async(userdata)=>{
 
     } catch (error) {
         console.log(error)
+        toast.error(error.message)
     }
 
 })
@@ -89,6 +95,7 @@ export const LogoutUser=createAsyncThunk("/user/logout",async(userdata)=>{
 
     } catch (error) {
         console.log(error)
+        toast.error(error.message)
     }
 
 })

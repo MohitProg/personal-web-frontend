@@ -202,7 +202,7 @@ const Addblog = () => {
 
   return (
     <>
-      <div className="w-full  min-h-screen mx-auto p-6 cmn-bg ">
+      <div className="w-full  min-h-screen mx-auto p-6 cmn-parent-bg ">
         <h2 className="text-2xl ubuntu-medium text-white font-semibold  mb-6">
           Add New Blog
         </h2>

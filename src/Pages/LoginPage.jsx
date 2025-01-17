@@ -56,7 +56,7 @@ const LoginPage = () => {
         <div className="bg-gradient-to-r from-black/55 to-black/40 w-full h-full absolute top-0 right-0 bottom-0 left-0">
 
         </div>
-        <div className="w-full max-w-sm p-6 cmn-bg rounded-lg shadow-lg relative">
+        <div className="w-full max-w-sm p-6 cmn-parent-bg rounded-lg shadow-lg relative">
           {/* <!-- Heading --> */}
           <h2 className="text-2xl ubuntu-bold  font-semibold text-center text-white">
             Welcome Back{" "}

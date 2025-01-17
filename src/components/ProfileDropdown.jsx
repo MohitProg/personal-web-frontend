@@ -14,28 +14,26 @@ import EditProfileModal from "@/modal/EditProfileModal";
 import { LogoutUser } from "@/Redux/Api/userApi";
 import toast from "react-hot-toast";
 const ProfileDropdown = () => {
-  // state for edit profile modal 
-  const [open,setopen]=useState(false)
+  // state for edit profile modal
+  const [open, setopen] = useState(false);
   const { userdata } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
-  // logout user functionality 
-   const HandleLogoutuser = () => {
-      dispatch(LogoutUser())
-        .unwrap()
-        .then((res) => {
-          if (res.success) {
-            toast.success(res.message);
-            localStorage.removeItem("token");
-            localStorage.removeItem("userid");
-            window.location.href = "/login";
-          } else {
-            toast.error(res.message);
-          }
-        });
-    };
-
-
+  // logout user functionality
+  const HandleLogoutuser = () => {
+    dispatch(LogoutUser())
+      .unwrap()
+      .then((res) => {
+        if (res.success) {
+          toast.success(res.message);
+          localStorage.removeItem("token");
+          localStorage.removeItem("userid");
+          window.location.href = "/login";
+        } else {
+          toast.error(res.message);
+        }
+      });
+  };
 
   return (
     <>
@@ -46,37 +44,46 @@ const ProfileDropdown = () => {
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className=" sm:w-[12vw] mr-3 cmn-bg border-none ">
-          <DropdownMenuLabel className="text-xl text-white">My Account</DropdownMenuLabel>
-
-         
+        <DropdownMenuContent className=" sm:w-[12vw] mr-7 cmn-parent-bg border-none  ">
+          <DropdownMenuLabel className="text-xl text-white">
+            My Account
+          </DropdownMenuLabel>
 
           <Link to={"/profile"}>
-            <DropdownMenuItem className=" p-2 cmn-text ">Profile</DropdownMenuItem>
+            <DropdownMenuItem className=" p-2 main-text hover:cmn-child-bg ">
+              Profile
+            </DropdownMenuItem>
           </Link>
 
-          <Link to={"admin/allblog"}>
+          {/* <Link to={"admin/allblog"}>
             <DropdownMenuItem className=" cmn-text ">
               {" "}
               Admin Panel
             </DropdownMenuItem>
-          </Link>
+          </Link> */}
 
           <Link>
-            <DropdownMenuItem className=" cmn-text ">
+            <DropdownMenuItem className="p-2 main-text hover:cmn-child-bg  ">
               {" "}
               Settings
             </DropdownMenuItem>
           </Link>
 
-          <DropdownMenuItem onClick={(e)=>setopen(true)} className=" cmn-text ">
+          <DropdownMenuItem
+            onClick={(e) => setopen(true)}
+            className=" p-2 main-text hover:cmn-child-bg  "
+          >
             {" "}
             Edit Profile
           </DropdownMenuItem>
 
-         
-            <DropdownMenuItem onClick={HandleLogoutuser} className=" cmn-text "> Logout</DropdownMenuItem>
-          
+          <DropdownMenuItem
+            onClick={HandleLogoutuser}
+            className=" p-2 main-text hover:cmn-child-bg  "
+          >
+            {" "}
+            Logout
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
 

@@ -21,7 +21,7 @@ const TopMenuForMobile = () => {
         <DrawerTrigger>
           <MenuIcon  className="cmn-text" fontSize="large" />
         </DrawerTrigger>
-        <DrawerContent className=" top-0  fixed cmn-bg  border-none outline-none ">
+        <DrawerContent className=" top-0  z-[999] fixed cmn-parent-bg  border-none outline-none ">
           <DrawerHeader>
             <DrawerTitle className="text-white">WebTechBlog</DrawerTitle>
             <DrawerDescription>This action cannot be undone.</DrawerDescription>

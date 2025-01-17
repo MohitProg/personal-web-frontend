@@ -5,7 +5,7 @@ const About = () => {
   const {darkmode}=useThemeContext();
   return (
     
-    <div className="cmn-bg">
+    <div className="cmn-parent-bg">
       <section className="w-full p-2 sm:p-6 lg:w-3/4 mx-auto">
         <div className="border-b-2 border-t-2 border-gray-400 mb-6">
           <h1 className="text-center ubuntu-bold text-4xl sm:text-6xl lg:text-[8rem] font-bold text-white transition-all duration-300 ease-in-out">

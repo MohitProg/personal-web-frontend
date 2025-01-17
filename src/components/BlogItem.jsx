@@ -8,6 +8,15 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { useDispatch, useSelector } from "react-redux";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
+import { CiHeart } from "react-icons/ci";
+import { FcLike } from "react-icons/fc";
+import { PiHeartBold } from "react-icons/pi";
+import { FaRegBookmark } from "react-icons/fa";
+import { FaBookmark } from "react-icons/fa";
+import { FaEdit } from "react-icons/fa";
+import { MdOutlineDeleteOutline } from "react-icons/md";
+import { CiRead } from "react-icons/ci";
+
 import {
   AddSavedBlogdata,
   DeleteBlog,
@@ -25,7 +34,7 @@ import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import { Tooltip } from "@mui/material";
 
 const BlogItem = ({ value }) => {
-  const Navigate=useNavigate();
+  const Navigate = useNavigate();
   // token
   const token = localStorage.getItem("token");
   // get recent blog data  for bookmark the state
@@ -130,16 +139,14 @@ const BlogItem = ({ value }) => {
     }
   };
 
-
-  // update blog data 
-  const HandleUpdateblog=(blogid)=>{
-    Navigate(`/updateblog/${blogid}`)
-
-  }
+  // update blog data
+  const HandleUpdateblog = (blogid) => {
+    Navigate(`/updateblog/${blogid}`);
+  };
   return (
     <>
       <div key={value?._id}>
-        <div className="w-full rounded-xl shadow-lg sm:bg-[#1c1f26] border-b-2 sm:border-b-0 border-[#949eb6]  sm:hover:outline sm:hover:outline-1 sm:outline-[#96989d] overflow-hidden transition-all duration-300 ease-in-out">
+        <div className="w-full rounded-lg shadow-lg cmn-child-bg sm:border-b-0 border-[#d78330]  sm:hover:outline sm:hover:outline-1 sm:outline-[#d78330] overflow-hidden transition-all duration-300 ease-in-out">
           {/* Image Div */}
           <div className="w-full h-48 p-2 overflow-hidden rounded-t-xl">
             <img
@@ -160,21 +167,27 @@ const BlogItem = ({ value }) => {
                       onClick={() => HandleReaction(value?._id)}
                     >
                       <Tooltip title="Like blog" arrow>
-                        <ThumbUpRoundedIcon
+                        {/* <ThumbUpRoundedIcon
                           className="text-[#96989d]  sm:hover:text-[#39e58c]"
                           fontSize="medium"
+                        /> */}
+
+                        {/* <CiHeart  /> */}
+                        <FcLike
+                          size={25}
+                          className="main-text  sm:hover:text-[#39e58c]"
                         />
                       </Tooltip>
                     </button>
                   ) : (
                     <button
-                      className="sm:hover:bg-[#255643]  bg-[#1a1f26]  sm:bg-transparent   rounded-full p-2 flex items-center justify-center"
+                      className="sm:hover:bg-[#255643] bg-[#1a1f26]  sm:bg-transparent  rounded-full p-1 flex items-center justify-center"
                       onClick={() => HandleReaction(value?._id)}
                     >
                       <Tooltip title="Like blog" arrow>
-                        <ThumbUpOffAltIcon
-                          className="text-[#96989d]  sm:hover:text-[#39e58c]"
-                          fontSize="medium"
+                        <PiHeartBold
+                          size={26}
+                          className="main-text   sm:hover:text-[#39e58c]"
                         />
                       </Tooltip>
                     </button>
@@ -189,9 +202,9 @@ const BlogItem = ({ value }) => {
                       onClick={() => HandleSavedblog(value)}
                     >
                       <Tooltip title="Saved blog" arrow>
-                        <BookmarkBorderIcon
-                          className="text-[#96989d]  hover:text-[#ff8e3b]"
-                          fontSize="medium"
+                        <FaRegBookmark
+                          size={20}
+                          className="main-text  hover:text-[#ff8e3b]"
                         />
                       </Tooltip>
                     </button>
@@ -201,9 +214,13 @@ const BlogItem = ({ value }) => {
                       onClick={() => HandleSavedblog(value)}
                     >
                       <Tooltip title="Unsaved blog" arrow>
-                        <BookmarkIcon
-                          className="text-[#96989d]  hover:text-[#ff8e3b]"
+                        {/* <BookmarkIcon
+                        
                           fontSize="medium"
+                        /> */}
+                        <FaBookmark
+                          size={20}
+                          className="main-text  hover:text-[#ff8e3b]"
                         />
                       </Tooltip>
                     </button>
@@ -212,9 +229,19 @@ const BlogItem = ({ value }) => {
 
                 {userid === value?.Author && (
                   <div className="flex gap-3">
-                    <button onClick={()=>HandleUpdateblog(value?._id)} className="sm:hover:bg-[#184a52]  bg-[#1a1f26]  sm:bg-transparent  rounded-full p-2 flex items-center justify-center">
+                    <button
+                      onClick={() => HandleUpdateblog(value?._id)}
+                      className="sm:hover:bg-[#184a52]  bg-[#1a1f26]  sm:bg-transparent  rounded-full p-2 flex items-center justify-center"
+                    >
                       <Tooltip title="Edit blog" arrow>
-                        <EditIcon fontSize="medium"     className="text-[#96989d]  hover:text-[#2cdce6]" />
+                        {/* <EditIcon
+                          fontSize="medium"
+                     
+                        /> */}
+                        <FaEdit
+                          size={23}
+                          className="main-text  hover:text-[#2cdce6]"
+                        />
                       </Tooltip>
                     </button>
 
@@ -223,16 +250,16 @@ const BlogItem = ({ value }) => {
                       className="sm:hover:bg-[#512b30]  bg-[#1a1f26]  sm:bg-transparent  rounded-full p-2 flex items-center justify-center"
                     >
                       <Tooltip title="Delete blog" arrow>
-                        <DeleteIcon
-                          className="text-[#96989d]  hover:text-[#e04337]"
-                          fontSize="medium"
+                        <MdOutlineDeleteOutline
+                          size={26}
+                          className="main-text  hover:text-[#e04337]"
                         />
                       </Tooltip>
                     </button>
                   </div>
                 )}
               </div>
-              <span className="font-semibold ubuntu-regular-italic text-[#96989d]  text-sm">
+              <span className="font-semibold ubuntu-regular-italic cmn-text text-sm">
                 {moment(value?.createdAt).fromNow()}
               </span>
             </div>
@@ -244,14 +271,19 @@ const BlogItem = ({ value }) => {
                 to={`/blog/${value?._id}`}
                 className="flex justify-between items-start p-1 gap-2"
               >
-                <h1 className=" h-32 text-2xl ubuntu-medium font-semibold text-white transition-all duration-300 ease-in-out hover:text-blue-500">
+                <h1 className=" h-32 text-2xl ubuntu-medium font-bold main-text transition-all duration-300 ease-in-out hover:text-[#d78330]">
                   {value?.title?.slice(0, 60)}.
                 </h1>
 
                 <button className="hover:bg-[#432256]  bg-[#1a1f26]  sm:bg-transparent  rounded-full p-2 flex items-center justify-center">
-                  <ArrowOutwardIcon
+                  {/* <ArrowOutwardIcon
                     fontSize="medium"
-                    className="text-[#96989d]  hover:text-[#ce3df3] "
+                
+                  /> */}
+
+                  <CiRead
+                    size={26}
+                    className="main-text  hover:text-[#ce3df3] "
                   />
                 </button>
               </Link>
@@ -266,7 +298,7 @@ const BlogItem = ({ value }) => {
                 {value?.category?.map((tag, index) => (
                   <div
                     key={index}
-                    className="text-[#96989d] ubuntu-normal  hover:text-white cursor-default bg-[#272b34] p-1 rounded-full text-xs"
+                    className="cmn-text px-2 sm:p-0 ubuntu-normal  hover:main-text cursor-default bg-[#272b34] p-1 rounded-full text-sm sm:text-xs"
                   >
                     #{tag}
                   </div>

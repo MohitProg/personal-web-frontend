@@ -25,7 +25,7 @@ const Projects = () => {
   }, []);
   return (
 
-      <div className="p-2 cmn-bg">
+      <div className="p-2 cmn-parent-bg">
         {/* Heading */}
         <div className="sm:border-b-2 border-gray-400">
           <h1 className="text-center ubuntu-bold text-4xl  text-white  sm:text-9xl lg:text-[10rem] font-bold">

@@ -74,7 +74,7 @@ const EditProfileModal = ({
     <>
       <Dialog open={open} onOpenChange={setopen}   >
        
-        <DialogContent className="sm:max-w-[425px] cmn-bg border-none ">
+        <DialogContent className="sm:max-w-[425px] cmn-parent-bg border-none ">
           <DialogHeader>
             <DialogTitle className="text-white">Edit profile</DialogTitle>
             <DialogDescription className="cmn-text">

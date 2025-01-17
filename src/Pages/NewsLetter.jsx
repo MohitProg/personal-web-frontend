@@ -28,7 +28,7 @@ const NewsLetter = () => {
   return (
     <>
   
-        <section className="p-1 cmn-bg sm:p-6 min-h-screen ">
+        <section className="p-1 cmn-parent-bg sm:p-6 min-h-screen ">
           {/* Heading */}
           <h1 className="text-xl ubuntu-medium sm:text-3xl text-white font-semibold  mb-6">
             Trending News

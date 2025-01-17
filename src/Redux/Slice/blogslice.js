@@ -23,7 +23,7 @@ const initialState = {
   singleblogdata: [],
   blogsbycategory: [],
   savedblogdata: [],
-  category:"",
+  category:"All Blogs",
   pagevalue: 1,
   totalvalue: "",
   likedblogstatus: "idle",
